@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anand Pinisetty - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'luxury-dark': '#0a0a0a',
+                        'luxury-darker': '#1a1a1a',
+                        'luxury-light': '#2a2a2a',
+                        'gold': '#d4af37',
+                        'gold-light': '#ffd700',
+                        'gold-dark': '#b8860b',
+                        'royal': '#1e3a8a',
+                        'royal-light': '#3b82f6'
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'playfair': ['Playfair Display', 'serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'slideUp': 'slideUp 0.6s ease-out',
+                        'fadeIn': 'fadeIn 0.8s ease-out'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(212, 175, 55, 0.3)' },
+                            '100%': { boxShadow: '0 0 30px rgba(212, 175, 55, 0.6)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(42, 42, 42, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        
+        .hero-3d {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(30, 58, 138, 0.1) 0%, transparent 50%);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .skill-bar {
+            transition: width 2s ease-in-out;
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #d4af37, #ffd700);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+        
+        .section-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .admin-dashboard {
+            display: none;
+        }
+        
+        .admin-dashboard.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-luxury-dark text-white font-poppins overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-effect">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold gradient-text font-playfair">Anand Pinisetty</div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-gold transition-colors">Home</a>
+                    <a href="#about" class="nav-link text-white hover:text-gold transition-colors">About</a>
+                    <a href="#skills" class="nav-link text-white hover:text-gold transition-colors">Skills</a>
+                    <a href="#projects" class="nav-link text-white hover:text-gold transition-colors">Projects</a>
+                    <a href="#contact" class="nav-link text-white hover:text-gold transition-colors">Contact</a>
+                    <button onclick="toggleAdminLogin()" class="text-white hover:text-gold transition-colors">
+                        <i class="fas fa-user-shield"></i>
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="text-white hover:text-gold transition-colors">Home</a>
+                    <a href="#about" class="text-white hover:text-gold transition-colors">About</a>
+                    <a href="#skills" class="text-white hover:text-gold transition-colors">Skills</a>
+                    <a href="#projects" class="text-white hover:text-gold transition-colors">Projects</a>
+                    <a href="#contact" class="text-white hover:text-gold transition-colors">Contact</a>
+                    <button onclick="toggleAdminLogin()" class="text-left text-white hover:text-gold transition-colors">
+                        <i class="fas fa-user-shield mr-2"></i>Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Portfolio Content -->
+    <div id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero-3d min-h-screen flex items-center justify-center relative">
+            <div class="container mx-auto px-6 text-center z-10">
+                <div class="animate-fadeIn">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 font-playfair">
+                        <span class="gradient-text">Anand Pinisetty</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-4 text-gray-300">
+                        Entrepreneur | Founder & CEO | Developer
+                    </p>
+                    <p class="text-lg mb-8 text-gray-400 max-w-3xl mx-auto">
+                        A dynamic and results-driven professional with proven expertise in business leadership, 
+                        marketing strategy, and modern web development. Passionate about leveraging technology, 
+                        AI, and creative innovation to deliver premium digital solutions.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#projects" class="bg-gradient-to-r from-gold to-gold-light text-black px-8 py-4 rounded-lg font-semibold hover:scale-105 transition-transform animate-glow">
+                            View My Work
+                        </a>
+                        <a href="#contact" class="border-2 border-gold text-gold px-8 py-4 rounded-lg font-semibold hover:bg-gold hover:text-black transition-all">
+                            Get In Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Elements -->
+            <div class="absolute top-20 left-10 w-20 h-20 bg-gold opacity-10 rounded-full animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-16 h-16 bg-royal opacity-10 rounded-full animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-20 w-12 h-12 bg-gold-light opacity-10 rounded-full animate-float" style="animation-delay: 4s;"></div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-luxury-darker section-reveal">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 font-playfair gradient-text">About Me</h2>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                        Based in Kakinada, Andhra Pradesh, India. Currently pursuing B.Tech in Computer Science 
+                        with specialization in Artificial Intelligence & Data Science at KIET.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <div class="glass-effect p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold mb-4 text-gold">Current Roles</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-center">
+                                    <i class="fas fa-crown text-gold mr-3"></i>
+                                    <span>Founder & CEO, Anand Travel Agency</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-chart-line text-gold mr-3"></i>
+                                    <span>Chief Marketing Officer & Board Member, Dream Team Services</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-code text-gold mr-3"></i>
+                                    <span>Full-Stack Developer</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="glass-effect p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold mb-4 text-gold">Expertise</h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                Specializing in business leadership, digital marketing strategy, and cutting-edge 
+                                web development. Passionate about AI integration, user experience design, and 
+                                creating innovative solutions that drive business growth.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Education Timeline -->
+                    <div class="space-y-8">
+                        <h3 class="text-2xl font-semibold mb-6 text-gold">Education Timeline</h3>
+                        
+                        <!-- Current Education -->
+                        <div class="relative pl-8 border-l-2 border-gold">
+                            <div class="absolute w-4 h-4 bg-gold rounded-full -left-2 top-0"></div>
+                            <div class="glass-effect p-4 rounded-lg">
+                                <h4 class="text-lg font-semibold text-gold-light">Bachelor of Technology (B.Tech)</h4>
+                                <p class="text-gray-300">Computer Science — AI & Data Science</p>
+                                <p class="text-sm text-gray-400">KIET, Kakinada | 2022 – 2026</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Intermediate -->
+                        <div class="relative pl-8 border-l-2 border-gray-600">
+                            <div class="absolute w-4 h-4 bg-gray-600 rounded-full -left-2 top-0"></div>
+                            <div class="glass-effect p-4 rounded-lg">
+                                <h4 class="text-lg font-semibold">Intermediate (MPC)</h4>
+                                <p class="text-gray-300">Mathematics, Physics, Chemistry</p>
+                                <p class="text-sm text-gray-400">Pragati Junior College, Kakinada | 2020 – 2022</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Secondary Education -->
+                        <div class="relative pl-8">
+                            <div class="absolute w-4 h-4 bg-gray-600 rounded-full -left-2 top-0"></div>
+                            <div class="glass-effect p-4 rounded-lg">
+                                <h4 class="text-lg font-semibold">Secondary Education</h4>
+                                <p class="text-gray-300">High School Diploma</p>
+                                <p class="text-sm text-gray-400">St. Anthony's EM High School, Kakinada | 2019 – 2020</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 bg-luxury-dark section-reveal">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 font-playfair gradient-text">Skills & Expertise</h2>
+                    <p class="text-xl text-gray-300">Technical proficiencies and professional capabilities</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Technical Skills -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-semibold mb-6 text-gold">Technical Skills</h3>
+                        
+                        <!-- Skill: AI Web Development -->
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white">AI Web Development</span>
+                                <span class="text-gold">90%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-gradient-to-r from-gold to-gold-light h-3 rounded-full" style="width: 0%" data-width="90%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skill: HTML, CSS, JavaScript -->
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white">HTML, CSS, JavaScript</span>
+                                <span class="text-gold">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-gradient-to-r from-royal to-royal-light h-3 rounded-full" style="width: 0%" data-width="85%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skill: UI & UX Design -->
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white">UI & UX Design</span>
+                                <span class="text-gold">80%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-gradient-to-r from-gold to-gold-light h-3 rounded-full" style="width: 0%" data-width="80%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skill: Digital Marketing -->
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white">Digital Marketing</span>
+                                <span class="text-gold">88%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-gradient-to-r from-royal to-royal-light h-3 rounded-full" style="width: 0%" data-width="88%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skill: AI Video Development -->
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white">AI Video Development</span>
+                                <span class="text-gold">75%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-gradient-to-r from-gold to-gold-light h-3 rounded-full" style="width: 0%" data-width="75%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soft Skills -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-semibold mb-6 text-gold">Professional Skills</h3>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="glass-effect p-4 rounded-lg text-center hover:scale-105 transition-transform">
+                                <i class="fas fa-users text-3xl text-gold mb-3"></i>
+                                <h4 class="font-semibold">Leadership</h4>
+                                <p class="text-sm text-gray-400">Team Management</p>
+                            </div>
+                            
+                            <div class="glass-effect p-4 rounded-lg text-center hover:scale-105 transition-transform">
+                                <i class="fas fa-lightbulb text-3xl text-gold mb-3"></i>
+                                <h4 class="font-semibold">Innovation</h4>
+                                <p class="text-sm text-gray-400">Creative Problem Solving</p>
+                            </div>
+                            
+                            <div class="glass-effect p-4 rounded-lg text-center hover:scale-105 transition-transform">
+                                <i class="fas fa-chart-line text-3xl text-gold mb-3"></i>
+                                <h4 class="font-semibold">Strategy</h4>
+                                <p class="text-sm text-gray-400">Strategic Planning</p>
+                            </div>
+                            
+                            <div class="glass-effect p-4 rounded-lg text-center hover:scale-105 transition-transform">
+                                <i class="fas fa-handshake text-3xl text-gold mb-3"></i>
+                                <h4 class="font-semibold">Relations</h4>
+                                <p class="text-sm text-gray-400">Client Management</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Technologies -->
+                        <div class="mt-8">
+                            <h4 class="text-xl font-semibold mb-4 text-gold">Technologies & Tools</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-gold text-black px-3 py-1 rounded-full text-sm font-medium">React</span>
+                                <span class="bg-royal text-white px-3 py-1 rounded-full text-sm font-medium">Firebase</span>
+                                <span class="bg-gold text-black px-3 py-1 rounded-full text-sm font-medium">Cloudinary</span>
+                                <span class="bg-royal text-white px-3 py-1 rounded-full text-sm font-medium">AI APIs</span>
+                                <span class="bg-gold text-black px-3 py-1 rounded-full text-sm font-medium">Node.js</span>
+                                <span class="bg-royal text-white px-3 py-1 rounded-full text-sm font-medium">MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 bg-luxury-darker section-reveal">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 font-playfair gradient-text">Featured Projects</h2>
+                    <p class="text-xl text-gray-300">Innovative solutions and cutting-edge developments</p>
+                </div>
+
+                <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Sample Project (will be replaced by Firebase data) -->
+                    <div class="project-card glass-effect rounded-xl overflow-hidden">
+                        <!-- Modern conference room with multiple screens displaying analytics -->
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=400" alt="AI-Driven Travel Booking System" class="w-full h-48 object-cover" />
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 text-gold">AI-Driven Travel Booking System</h3>
+                            <p class="text-gray-300 mb-4">An AI-powered travel booking platform that personalizes user recommendations based on travel history, budget, and preferences.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-royal text-white px-2 py-1 rounded text-xs">React</span>
+                                <span class="bg-gold text-black px-2 py-1 rounded text-xs">Firebase</span>
+                                <span class="bg-royal text-white px-2 py-1 rounded text-xs">AI APIs</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="text-gold hover:text-gold-light transition-colors">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="#" class="text-gold hover:text-gold-light transition-colors">
+                                    <i class="fab fa-github"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card glass-effect rounded-xl overflow-hidden">
+                        <!-- Modern digital marketing dashboard with charts and analytics -->
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=400" alt="Digital Marketing Analytics Platform" class="w-full h-48 object-cover" />
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 text-gold">Digital Marketing Analytics Platform</h3>
+                            <p class="text-gray-300 mb-4">Comprehensive analytics dashboard for tracking marketing campaigns, ROI, and customer engagement metrics.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-royal text-white px-2 py-1 rounded text-xs">React</span>
+                                <span class="bg-gold text-black px-2 py-1 rounded text-xs">D3.js</span>
+                                <span class="bg-royal text-white px-2 py-1 rounded text-xs">Node.js</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="text-gold hover:text-gold-light transition-colors">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="#" class="text-gold hover:text-gold-light transition-colors">
+                                    <i class="fab fa-github"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card glass-effect rounded-xl overflow-hidden">
+                        <!-- AI video editing workspace with multiple video screens -->
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=400" alt="AI Video Production Suite" class="w-full h-48 object-cover" />
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 text-gold">AI Video Production Suite</h3>
+                            <p class="text-gray-300 mb-4">Automated video creation and editing platform using AI for content generation and optimization.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-royal text-white px-2 py-1 rounded text-xs">Python</span>
+                                <span class="bg-gold text-black px-2 py-1 rounded text-xs">TensorFlow</span>
+                                <span class="bg-royal text-white px-2 py-1 rounded text-xs">FFmpeg</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="text-gold hover:text-gold-light transition-colors">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="#" class="text-gold hover:text-gold-light transition-colors">
+                                    <i class="fab fa-github"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="#contact" class="bg-gradient-to-r from-gold to-gold-light text-black px-8 py-4 rounded-lg font-semibold hover:scale-105 transition-transform">
+                        Let's Work Together
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-luxury-dark section-reveal">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 font-playfair gradient-text">Let's Connect</h2>
+                    <p class="text-xl text-gray-300">Ready to discuss your next project or opportunity</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                    <!-- Contact Information -->
+                    <div class="space-y-8">
+                        <div class="glass-effect p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold mb-6 text-gold">Get In Touch</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope text-gold mr-4 text-xl"></i>
+                                    <div>
+                                        <p class="text-gray-300">Email</p>
+                                        <a href="mailto:anandpinisetty@gmail.com" class="text-white hover:text-gold transition-colors">anandpinisetty@gmail.com</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt text-gold mr-4 text-xl"></i>
+                                    <div>
+                                        <p class="text-gray-300">Location</p>
+                                        <p class="text-white">Kakinada, Andhra Pradesh, India</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <i class="fab fa-linkedin text-gold mr-4 text-xl"></i>
+                                    <div>
+                                        <p class="text-gray-300">LinkedIn</p>
+                                        <a href="#" class="text-white hover:text-gold transition-colors">Connect with me</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <i class="fab fa-github text-gold mr-4 text-xl"></i>
+                                    <div>
+                                        <p class="text-gray-300">GitHub</p>
+                                        <a href="#" class="text-white hover:text-gold transition-colors">View my repositories</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="glass-effect p-6 rounded-xl">
+                            <h3 class="text-xl font-semibold mb-4 text-gold">Quick Stats</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold text-gold">15+</p>
+                                    <p class="text-gray-300 text-sm">Projects Completed</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold text-gold">2+</p>
+                                    <p class="text-gray-300 text-sm">Years Experience</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold text-gold">10+</p>
+                                    <p class="text-gray-300 text-sm">Happy Clients</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold text-gold">24/7</p>
+                                    <p class="text-gray-300 text-sm">Support</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="glass-effect p-8 rounded-xl">
+                        <h3 class="text-2xl font-semibold mb-6 text-gold">Send Message</h3>
+                        
+                        <form id="contact-form" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-gray-300 mb-2">Full Name</label>
+                                <input type="text" id="name" name="name" required 
+                                       class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors"
+                                       placeholder="Your full name">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-gray-300 mb-2">Email Address</label>
+                                <input type="email" id="email" name="email" required 
+                                       class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors"
+                                       placeholder="your.email@example.com">
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-gray-300 mb-2">Subject</label>
+                                <select id="subject" name="subject" required 
+                                        class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors">
+                                    <option value="">Select a subject</option>
+                                    <option value="project">Project Inquiry</option>
+                                    <option value="collaboration">Collaboration</option>
+                                    <option value="consultation">Consultation</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-gray-300 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5" required 
+                                          class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors"
+                                          placeholder="Tell me about your project or inquiry..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-gradient-to-r from-gold to-gold-light text-black py-3 rounded-lg font-semibold hover:scale-105 transition-transform">
+                                <span id="submit-text">Send Message</span>
+                                <i id="submit-loading" class="fas fa-spinner fa-spin hidden ml-2"></i>
+                            </button>
+                        </form>
+                        
+                        <!-- Form Status Messages -->
+                        <div id="form-success" class="hidden mt-4 p-4 bg-green-600 bg-opacity-20 border border-green-600 rounded-lg">
+                            <p class="text-green-400">Message sent successfully! I'll get back to you soon.</p>
+                        </div>
+                        
+                        <div id="form-error" class="hidden mt-4 p-4 bg-red-600 bg-opacity-20 border border-red-600 rounded-lg">
+                            <p class="text-red-400">Something went wrong. Please try again later.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="admin-dashboard bg-luxury-dark min-h-screen">
+        <!-- Admin Login Modal -->
+        <div id="admin-login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="glass-effect p-8 rounded-xl max-w-md w-full mx-4">
+                <h2 class="text-2xl font-bold mb-6 text-gold text-center">Admin Login</h2>
+                <form id="admin-login-form">
+                    <div class="mb-4">
+                        <label for="admin-email" class="block text-gray-300 mb-2">Email</label>
+                        <input type="email" id="admin-email" required 
+                               class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors"
+                               placeholder="Admin email">
+                    </div>
+                    <div class="mb-6">
+                        <label for="admin-password" class="block text-gray-300 mb-2">Password</label>
+                        <input type="password" id="admin-password" required 
+                               class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors"
+                               placeholder="Admin password">
+                    </div>
+                    <div class="flex space-x-4">
+                        <button type="submit" class="flex-1 bg-gradient-to-r from-gold to-gold-light text-black py-3 rounded-lg font-semibold">
+                            Login
+                        </button>
+                        <button type="button" onclick="closeAdminLogin()" class="flex-1 border border-gray-600 text-white py-3 rounded-lg font-semibold">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+                <div id="login-error" class="hidden mt-4 p-4 bg-red-600 bg-opacity-20 border border-red-600 rounded-lg">
+                    <p class="text-red-400">Invalid credentials. Please try again.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel Content -->
+        <div id="admin-panel" class="hidden">
+            <!-- Admin Navigation -->
+            <nav class="bg-luxury-darker border-b border-gray-700">
+                <div class="container mx-auto px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h1 class="text-2xl font-bold gradient-text">Admin Dashboard</h1>
+                        <div class="flex items-center space-x-4">
+                            <button onclick="showPortfolio()" class="text-white hover:text-gold transition-colors">
+                                <i class="fas fa-eye mr-2"></i>View Portfolio
+                            </button>
+                            <button onclick="logout()" class="text-white hover:text-gold transition-colors">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Admin Content -->
+            <div class="container mx-auto px-6 py-8">
+                <!-- Admin Tabs -->
+                <div class="flex space-x-4 mb-8 border-b border-gray-700">
+                    <button onclick="switchTab('projects')" class="admin-tab active pb-2 border-b-2 border-gold text-gold">Projects</button>
+                    <button onclick="switchTab('profile')" class="admin-tab pb-2 text-gray-300 hover:text-gold">Profile</button>
+                    <button onclick="switchTab('messages')" class="admin-tab pb-2 text-gray-300 hover:text-gold">Messages</button>
+                    <button onclick="switchTab('analytics')" class="admin-tab pb-2 text-gray-300 hover:text-gold">Analytics</button>
+                </div>
+
+                <!-- Projects Tab -->
+                <div id="admin-projects" class="admin-tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-semibold text-white">Manage Projects</h2>
+                        <button onclick="openProjectModal()" class="bg-gradient-to-r from-gold to-gold-light text-black px-6 py-2 rounded-lg font-semibold">
+                            <i class="fas fa-plus mr-2"></i>Add Project
+                        </button>
+                    </div>
+                    
+                    <div id="admin-projects-list" class="grid gap-6">
+                        <!-- Projects will be loaded here -->
+                        <div class="glass-effect p-6 rounded-xl">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gold">AI-Driven Travel Booking System</h3>
+                                    <p class="text-gray-300 mt-2">An AI-powered travel booking platform...</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-400 hover:text-blue-300">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-red-400 hover:text-red-300">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-royal text-white px-2 py-1 rounded text-xs">React</span>
+                                <span class="bg-gold text-black px-2 py-1 rounded text-xs">Firebase</span>
+                                <span class="bg-royal text-white px-2 py-1 rounded text-xs">AI APIs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Tab -->
+                <div id="admin-profile" class="admin-tab-content hidden">
+                    <h2 class="text-2xl font-semibold text-white mb-6">Profile Settings</h2>
+                    <div class="glass-effect p-6 rounded-xl">
+                        <form id="profile-form" class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-gray-300 mb-2">Full Name</label>
+                                    <input type="text" value="Anand Pinisetty" 
+                                           class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-300 mb-2">Title</label>
+                                    <input type="text" value="Entrepreneur | Founder & CEO" 
+                                           class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 mb-2">Bio</label>
+                                <textarea rows="4" 
+                                          class="w-full bg-luxury-light border border-gray-600 rounded-lg px-4 py-3 text-white">A dynamic and results-driven professional...</textarea>
+                            </div>
+                            <button type="submit" class="bg-gradient-to-r from-gold to-gold-light text-black px-6 py-2 rounded-lg font-semibold">
+                                Update Profile
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Messages Tab -->
+                <div id="admin-messages" class="admin-tab-content hidden">
+                    <h2 class="text-2xl font-semibold text-white mb-6">Contact Messages</h2>
+                    <div class="space-y-4">
+                        <div class="glass-effect p-6 rounded-xl">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gold">John Doe</h3>
+                                    <p class="text-gray-400 text-sm">john@example.com • 2 hours ago</p>
+                                </div>
+                                <span class="bg-gold text-black px-2 py-1 rounded text-xs">New</span>
+                            </div>
+                            <p class="text-gray-300 mb-4">Subject: Project Inquiry</p>
+                            <p class="text-white">Hi Anand, I'm interested in discussing a potential project...</p>
+                            <div class="flex space-x-3 mt-4">
+                                <button class="text-gold hover:text-gold-light">Reply</button>
+                                <button class="text-gray-400 hover:text-gray-300">Mark as Read</button>
+                                <button class="text-red-400 hover:text-red-300">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="admin-analytics" class="admin-tab-content hidden">
+                    <h2 class="text-2xl font-semibold text-white mb-6">Analytics Overview</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="glass-effect p-6 rounded-xl text-center">
+                            <i class="fas fa-eye text-3xl text-gold mb-3"></i>
+                            <p class="text-2xl font-bold text-white">1,234</p>
+                            <p class="text-gray-400">Page Views</p>
+                        </div>
+                        <div class="glass-effect p-6 rounded-xl text-center">
+                            <i class="fas fa-envelope text-3xl text-gold mb-3"></i>
+                            <p class="text-2xl font-bold text-white">56</p>
+                            <p class="text-gray-400">Messages</p>
+                        </div>
+                        <div class="glass-effect p-6 rounded-xl text-center">
+                            <i class="fas fa-project-diagram text-3xl text-gold mb-3"></i>
+                            <p class="text-2xl font-bold text-white">12</p>
+                            <p class="text-gray-400">Projects</p>
+                        </div>
+                        <div class="glass-effect p-6 rounded-xl text-center">
+                            <i class="fas fa-download text-3xl text-gold mb-3"></i>
+                            <p class="text-2xl font-bold text-white">89</p>
+                            <p class="text-gray-400">Downloads</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-luxury-darker border-t border-gray-700 py-12">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <div class="text-2xl font-bold gradient-text font-playfair mb-4">Anand Pinisetty</div>
+                <p class="text-gray-400 mb-6">Building the future through innovation and technology</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-gold transition-colors">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gold transition-colors">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="mailto:anandpinisetty@gmail.com" class="text-gray-400 hover:text-gold transition-colors">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gold transition-colors">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                </div>
+                <p class="text-gray-500 text-sm">© 2024 Anand Pinisetty. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLXxLGhNej_ytNR57ydMOdXck-TMs2JTc",
+            authDomain: "anand-portfolio-f1667.firebaseapp.com",
+            projectId: "anand-portfolio-f1667",
+            storageBucket: "anand-portfolio-f1667.firebasestorage.app",
+            messagingSenderId: "680965504181",
+            appId: "1:680965504181:web:4f4668acabe30d8e2012fc",
+            measurementId: "G-PHZHJMWP17"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Global Variables
+        let isAdminLoggedIn = false;
+        let currentUser = null;
+
+        // DOM Elements
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const adminLoginModal = document.getElementById('admin-login-modal');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const mainContent = document.getElementById('main-content');
+
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate skill bars when skills section is visible
+                    if (entry.target.id === 'skills') {
+                        animateSkillBars();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections for animations
+        document.querySelectorAll('.section-reveal').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Animate Skill Bars
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-bar');
+            skillBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width;
+                }, index * 200);
+            });
+        }
+
+        // Admin Functions
+        function toggleAdminLogin() {
+            adminLoginModal.classList.remove('hidden');
+        }
+
+        function closeAdminLogin() {
+            adminLoginModal.classList.add('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function showPortfolio() {
+            adminDashboard.classList.remove('active');
+            mainContent.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAdmin() {
+            adminDashboard.classList.add('active');
+            mainContent.style.display = 'none';
+            document.getElementById('admin-panel').classList.remove('hidden');
+        }
+
+        function logout() {
+            auth.signOut().then(() => {
+                isAdminLoggedIn = false;
+                currentUser = null;
+                showPortfolio();
+                document.getElementById('admin-panel').classList.add('hidden');
+            });
+        }
+
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.admin-tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active', 'border-gold', 'text-gold');
+                tab.classList.add('text-gray-300');
+            });
+            
+            // Show selected tab content
+            document.getElementById(`admin-${tabName}`).classList.remove('hidden');
+            
+            // Add active class to selected tab
+            event.target.classList.add('active', 'border-gold', 'text-gold');
+            event.target.classList.remove('text-gray-300');
+        }
+
+        function openProjectModal() {
+            // TODO: Implement project modal for adding/editing projects
+            alert('Project modal functionality to be implemented');
+        }
+
+        // Admin Login Form Handler
+        document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            const errorDiv = document.getElementById('login-error');
+            
+            try {
+                // TODO: Implement Firebase Authentication
+                // For now, check against predefined admin email
+                if (email === 'anandpinisetty@gmail.com' && password) {
+                    isAdminLoggedIn = true;
+                    closeAdminLogin();
+                    showAdmin();
+                    errorDiv.classList.add('hidden');
+                } else {
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorDiv.classList.remove('hidden');
+            }
+        });
+
+        // Contact Form Handler
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            const submitBtn = document.getElementById('submit-text');
+            const loadingIcon = document.getElementById('submit-loading');
+            const successDiv = document.getElementById('form-success');
+            const errorDiv = document.getElementById('form-error');
+            
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            loadingIcon.classList.remove('hidden');
+            
+            try {
+                // TODO: Implement Firebase Firestore submission
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Show success message
+                successDiv.classList.remove('hidden');
+                errorDiv.classList.add('hidden');
+                e.target.reset();
+                
+                // TODO: Store form data in Firebase
+                console.log('Form data to be stored:', data);
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                errorDiv.classList.remove('hidden');
+                successDiv.classList.add('hidden');
+            } finally {
+                // Reset button state
+                submitBtn.textContent = 'Send Message';
+                loadingIcon.classList.add('hidden');
+            }
+        });
+
+        // Load Projects from Firebase
+        async function loadProjects() {
+            try {
+                // TODO: Implement Firebase data fetching
+                // For now, projects are hardcoded in HTML
+                console.log('Loading projects from Firebase...');
+            } catch (error) {
+                console.error('Error loading projects:', error);
+            }
+        }
+
+        // Cloudinary Integration
+        function uploadToCloudinary(file) {
+            // TODO: Implement Cloudinary upload
+            // Cloud Name: dlvjvskje
+            // Upload Preset: anandportfolio
+            console.log('Uploading to Cloudinary:', file);
+        }
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load initial data
+            loadProjects();
+            
+            // Set up smooth scrolling behavior
+            document.documentElement.style.scrollBehavior = 'smooth';
+            
+            // Initialize any additional animations or features
+            console.log('Portfolio initialized successfully');
+        });
+
+        // Auth State Observer
+        auth.onAuthStateChanged((user) => {
+            if (user && user.email === 'anandpinisetty@gmail.com') {
+                currentUser = user;
+                isAdminLoggedIn = true;
+            } else {
+                currentUser = null;
+                isAdminLoggedIn = false;
+            }
+        });
+
+        // Performance Optimization: Lazy Loading
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        lazyImages.forEach(img => imageObserver.observe(img));
+
+        // SEO and Analytics
+        function trackPageView(page) {
+            // TODO: Implement analytics tracking
+            console.log(`Page view tracked: ${page}`);
+        }
+
+        // Track initial page load
+        trackPageView('home');
+    </script>
+</body>
+</html>

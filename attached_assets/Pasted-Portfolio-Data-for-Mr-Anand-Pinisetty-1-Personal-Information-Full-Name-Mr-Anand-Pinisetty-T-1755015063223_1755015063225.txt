@@ -1,0 +1,218 @@
+Portfolio Data for Mr. Anand Pinisetty
+1. Personal Information
+Full Name: Mr. Anand Pinisetty
+
+Title / Designation: Entrepreneur | Founder & CEO, Anand Travel Agency | Chief Marketing Officer & Board Member at Dream Team Services | Developer
+
+Profile Summary / About Me:
+
+A dynamic and results-driven professional with proven expertise in business leadership, marketing strategy, and modern web development. Founder & CEO of Anand Travel Agency, and serving as the Chief Marketing Officer & Board Member at Dream Team Services. Passionate about leveraging technology, AI, and creative innovation to deliver premium digital solutions and memorable customer experiences.
+
+Profile Image: (Provide your profile photo to Cloudinary and store URL here)
+
+Location: Kakinada, Andhra Pradesh, India
+
+2. Education Timeline
+Bachelor of Technology (B.Tech)
+
+Specialization: Computer Science — Artificial Intelligence & Data Science
+
+Institution: KIET, Kakinada
+
+Duration: 2022 – 2026
+
+Intermediate (MPC)
+
+Institution: Pragati Junior College, Kakinada
+
+Duration: 2020 – 2022
+
+Subjects: Mathematics, Physics, Chemistry
+
+Secondary Education
+
+Institution: St. Anthony's EM High School, Kakinada
+
+Duration: 2019 – 2020
+
+3. Skills
+Core Skills:
+
+Digital Marketing
+
+AI Video Development
+
+AI Web Development (90% proficiency)
+
+HTML, CSS, JavaScript
+
+UI & UX Design
+
+Front-End Development
+
+Soft Skills:
+
+Leadership & Team Management
+
+Creative Problem Solving
+
+Strategic Planning
+
+Client Relationship Management
+
+4. Projects
+Dynamic Projects Section:
+
+Will be fetched from Firebase dynamically.
+
+Each project should contain:
+
+Title
+
+Description
+
+Tech Stack Used
+
+Image/Video (Stored on Cloudinary, link saved in Firebase)
+
+Project Link (if live)
+
+(Example entry for testing)
+
+json
+Copy
+Edit
+{
+  "title": "AI-Driven Travel Booking System",
+  "description": "An AI-powered travel booking platform that personalizes user recommendations based on travel history, budget, and preferences.",
+  "techStack": ["React", "Firebase", "Cloudinary", "AI APIs"],
+  "media": "https://cloudinary.com/sampleprojectimage.jpg",
+  "link": "https://example.com/project"
+}
+5. Contact Information
+Email: anandpinisetty@gmail.com
+
+Phone: (Add actual contact number)
+
+LinkedIn: (Add LinkedIn profile link)
+
+GitHub / Portfolio Link: (Add GitHub link if available)
+
+Location: Kakinada, Andhra Pradesh, India
+
+Contact Form Requirements: Store form submissions in Firebase; show confirmation message on success.
+
+6. Admin Credentials (For Firebase Authentication)
+Admin Email: anandpinisetty@gmail.com
+
+Admin Authentication: Stored in Firebase Authentication and verified against Firestore.
+
+7. Branding & Design Guidelines
+Brand Personality: Luxury, innovation, professionalism, minimalism.
+
+Primary Colors: Dark background tones + gold/royal accents (luxury feel).
+
+Fonts: High-end, clean sans-serif & serif combinations (e.g., Poppins, Playfair Display).
+
+Animations: Smooth, premium transitions, scroll-based reveals, hover micro-interactions.
+
+3D Elements: Hero section background animations, interactive skill graphs, and card flip effects.MASTER ATOMIC-LEVEL PROMPT
+
+Goal: Build a fully functional, premium, world-class portfolio website for Mr. Anand Pinisetty, with cutting-edge UI/UX, 3D animations, dynamic content management via Firebase, and Cloudinary integration for media storage. Must be pixel-perfect, responsive, and contain no broken or incomplete elements.
+
+Negative prompt: No half-developed pages, no placeholder or non-functional buttons, no missing animations, no broken backend connections, no “coming soon” pages. All features must be complete and production-ready.
+
+Core Requirements:
+
+Design Style
+
+Premium, luxury-inspired, modern minimalism with subtle elegance.
+
+Smooth micro-interactions, hover effects, parallax scrolling, and high-quality animations.
+
+Integrate 3D interactive elements where relevant (e.g., hero section).
+
+Color palette: sleek, professional, and high contrast for visual impact.
+
+Typography: clean, high-end fonts for professional branding.
+
+Pixel-perfect responsiveness across all devices (mobile-first approach).
+
+Main Website Pages & Sections
+
+Home: Hero section with animated intro text, dynamic background, and smooth scroll.
+
+About Me: Personal details, education timeline, career achievements with interactive animations.
+
+Skills: Interactive skill bars with animation, percentages, and hover tooltips.
+
+Projects: Dynamically fetched from Firebase (CRUD-enabled), each with image/video preview from Cloudinary.
+
+Contact: Fully functional contact form connected to Firebase; form validation & success/error states.
+
+3D & Animation Enhancements: Smooth page transitions, animated section entrances, scroll-based reveals.
+
+Admin Dashboard
+
+Secure login with Firebase Authentication.
+
+Only the stored admin user (anandpinisetty@gmail.com) can access.
+
+CRUD operations for all portfolio sections: About Me, Education, Skills, Projects, Contact Info.
+
+Media uploads: Send files to Cloudinary → store returned URL in Firebase → update frontend automatically.
+
+Responsive and intuitive UI/UX with animations and charts for content management statistics.
+
+Backend & Database Integration
+
+Firebase:
+
+Store all textual data and structured portfolio content.
+
+Authentication for admin access.
+
+Firestore for storing all dynamic content.
+
+Cloudinary:
+
+Store and serve all media files.
+
+Cloud Name: dlvjvskje
+
+Upload Preset: anandportfolio
+
+Firebase Config:
+
+javascript
+Copy
+Edit
+const firebaseConfig = {
+  apiKey: "AIzaSyBLXxLGhNej_ytNR57ydMOdXck-TMs2JTc",
+  authDomain: "anand-portfolio-f1667.firebaseapp.com",
+  projectId: "anand-portfolio-f1667",
+  storageBucket: "anand-portfolio-f1667.firebasestorage.app",
+  messagingSenderId: "680965504181",
+  appId: "1:680965504181:web:4f4668acabe30d8e2012fc",
+  measurementId: "G-PHZHJMWP17"
+};
+Performance & SEO
+
+Fast load time with optimized images/videos.
+
+SEO-friendly structure and metadata.
+
+Lazy loading for media-heavy sections.
+
+Final Delivery Requirements
+
+Fully functional, bug-free, end-to-end working code.
+
+No dummy data — preload with Mr. Anand Pinisetty’s real bio, education, and skills.
+
+All navigation, buttons, and links must work perfectly.
+
+Responsive across mobile, tablet, and desktop with consistent visual quality.
+
+Final output ready for deployment without additional fixes.
+
