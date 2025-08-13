@@ -32,9 +32,9 @@ export default function ProfilePhoto({
             <img 
               src={src} 
               alt={alt}
-              className="w-full h-full object-cover object-center scale-125"
+              className="w-full h-full object-cover object-center scale-150"
               style={{
-                objectPosition: 'center 30%',
+                objectPosition: 'center 25%',
                 transformOrigin: 'center center'
               }}
             />
