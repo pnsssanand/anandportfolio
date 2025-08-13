@@ -4,13 +4,13 @@ import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBLXxLGhNej_ytNR57ydMOdXck-TMs2JTc",
-  authDomain: "anand-portfolio-f1667.firebaseapp.com",
-  projectId: "anand-portfolio-f1667",
-  storageBucket: "anand-portfolio-f1667.firebasestorage.app",
-  messagingSenderId: "680965504181",
-  appId: "1:680965504181:web:4f4668acabe30d8e2012fc",
-  measurementId: "G-PHZHJMWP17"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBLXxLGhNej_ytNR57ydMOdXck-TMs2JTc",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "anand-portfolio-f1667.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "anand-portfolio-f1667",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "anand-portfolio-f1667.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "680965504181",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:680965504181:web:4f4668acabe30d8e2012fc",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-PHZHJMWP17"
 };
 
 // Initialize Firebase
@@ -23,12 +23,12 @@ export const storage = getStorage(app);
 
 // Cloudinary configuration
 export const cloudinaryConfig = {
-  cloudName: "dlvjvskje",
-  uploadPreset: "anandportfolio",
-  apiUrl: `https://api.cloudinary.com/v1_1/dlvjvskje/image/upload`
+  cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "dlvjvskje",
+  uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || "anandportfolio",
+  apiUrl: `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "dlvjvskje"}/image/upload`
 };
 
 // Admin email for authentication
-export const ADMIN_EMAIL = "anandpinisetty@gmail.com";
+export const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "anandpinisetty@gmail.com";
 
 export default app;

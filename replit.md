@@ -1,8 +1,10 @@
-# Portfolio Application
+# Anand Pinisetty - Portfolio Website
 
 ## Overview
 
-This is a modern portfolio website for Anand Pinisetty, built as a full-stack application using React, TypeScript, and Express.js. The application showcases professional experience, projects, skills, and provides a contact form. It features a luxury dark theme with animated UI components and includes an admin dashboard for content management.
+This is a modern portfolio website for **Anand Pinisetty**, built as a full-stack application using React, TypeScript, and Express.js. The application showcases professional experience, projects, skills, and provides a contact form. It features a luxury dark theme with animated UI components and includes an admin dashboard for content management.
+
+**Created by:** Anand Pinisetty
 
 ## User Preferences
 
@@ -49,7 +51,6 @@ Preferred communication style: Simple, everyday language.
 - **TypeScript**: Type safety across the entire stack
 - **ESBuild**: Fast bundling for production server builds
 - **Drizzle Kit**: Database schema management and migrations
-- **Replit Integration**: Development environment support with Cartographer plugin
 
 #### UI and Animation Libraries
 - **Radix UI**: Accessible component primitives
