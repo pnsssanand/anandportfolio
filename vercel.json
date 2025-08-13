@@ -1,27 +1,16 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/public"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/serverless.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/public/$1"
-    }
-  ],
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "dist/public",
   "functions": {
     "api/serverless.js": {
       "maxDuration": 30
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/serverless.js"
+    }
+  ]
 }
