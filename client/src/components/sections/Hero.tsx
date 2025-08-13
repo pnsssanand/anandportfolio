@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import ProfilePhoto from "@/components/ui/ProfilePhoto";
 import { motion } from "framer-motion";
+import anandProfileImg from "@/assets/images/anand-profile.jpg";
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -63,7 +64,7 @@ export default function Hero() {
               <ProfilePhoto 
                 size="xl"
                 alt="Anand Pinisetty - Entrepreneur, Founder & CEO, Developer"
-                // src="/path/to/your/profile-photo.jpg" // Uncomment and add your photo path when ready
+                src={anandProfileImg}
               />
             </motion.div>
           </motion.div>
