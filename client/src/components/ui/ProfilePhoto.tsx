@@ -32,7 +32,11 @@ export default function ProfilePhoto({
             <img 
               src={src} 
               alt={alt}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center scale-125"
+              style={{
+                objectPosition: 'center 30%',
+                transformOrigin: 'center center'
+              }}
             />
           ) : (
             // Placeholder with sophisticated gradient and initials
