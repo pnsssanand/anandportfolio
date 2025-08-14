@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { useProjects } from "@/hooks/useProjects";
 import ProjectManager from "./ProjectManager";
+import ResumeManager from "./ResumeManager";
 import { 
   Eye, 
   MessageSquare, 
@@ -16,7 +17,8 @@ import {
   ArrowLeft,
   TrendingUp,
   Users,
-  Calendar
+  Calendar,
+  FileText
 } from "lucide-react";
 
 interface AdminDashboardProps {
@@ -117,6 +119,9 @@ export default function AdminDashboard({ onBackToPortfolio }: AdminDashboardProp
             </TabsTrigger>
             <TabsTrigger value="projects" className="data-[state=active]:bg-gold data-[state=active]:text-black">
               Projects
+            </TabsTrigger>
+            <TabsTrigger value="resume" className="data-[state=active]:bg-gold data-[state=active]:text-black">
+              Resume
             </TabsTrigger>
             <TabsTrigger value="messages" className="data-[state=active]:bg-gold data-[state=active]:text-black">
               Messages
@@ -223,6 +228,10 @@ export default function AdminDashboard({ onBackToPortfolio }: AdminDashboardProp
 
           <TabsContent value="projects">
             <ProjectManager />
+          </TabsContent>
+
+          <TabsContent value="resume">
+            <ResumeManager />
           </TabsContent>
 
           <TabsContent value="messages" className="space-y-6">

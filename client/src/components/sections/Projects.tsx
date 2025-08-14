@@ -179,34 +179,13 @@ export default function Projects() {
                           variant="outline"
                           size="sm"
                           asChild
-                          className="text-gold border-gold hover:bg-gold hover:text-black"
+                          className="text-gold border-gold hover:bg-gold hover:text-black w-full justify-center"
                         >
                           <a href={project.link} target="_blank" rel="noopener noreferrer">
                             <ExternalLink className="w-4 h-4 mr-2" />
-                            Live Demo
+                            Visit
                           </a>
                         </Button>
-                      )}
-                      
-                      {isAdmin && (
-                        <>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-blue-400 border-blue-400 hover:bg-blue-400 hover:text-white"
-                          >
-                            <Edit className="w-4 h-4 mr-2" />
-                            Edit
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-red-400 border-red-400 hover:bg-red-400 hover:text-white"
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
-                          </Button>
-                        </>
                       )}
                     </div>
                   </CardContent>
