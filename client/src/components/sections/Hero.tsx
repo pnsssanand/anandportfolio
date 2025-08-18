@@ -78,7 +78,7 @@ export default function Hero() {
             >
               <ProfilePhoto 
                 size="xl"
-                alt="Anand Pinisetty - Full-Stack Developer, UI/UX Designer, Tech Innovator"
+                alt="Anand Pinisetty - Full-Stack Developer, Ai Architect"
                 src={profile.profileImageUrl || anandProfileImg}
               />
             </motion.div>

@@ -30,6 +30,9 @@ const softSkills = [
   "Creative Problem Solving", 
   "Strategic Planning",
   "Client Relationship Management",
+  "Strong Pattern Finding Skills",
+  "Good Vocabulary Skills",
+  "An AI Architect",
 ];
 
 export default function Skills() {
