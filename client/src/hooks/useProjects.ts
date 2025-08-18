@@ -13,11 +13,13 @@ import {
 import { db } from "@/lib/firebase";
 import { Project, InsertProject } from "@shared/schema";
 import { useToast } from "./use-toast";
+import { useAnalytics } from "./useAnalytics";
 
 export function useProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { updateProjectCount } = useAnalytics();
 
   const fetchProjects = async () => {
     try {
@@ -33,6 +35,9 @@ export function useProjects() {
       })) as Project[];
       
       setProjects(projectsData);
+      
+      // Update analytics with current project count
+      await updateProjectCount(projectsData.length);
     } catch (error) {
       console.error("Error fetching projects:", error);
       toast({

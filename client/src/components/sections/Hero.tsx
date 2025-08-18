@@ -2,10 +2,19 @@ import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import ProfilePhoto from "@/components/ui/ProfilePhoto";
 import { motion } from "framer-motion";
+import { useProfile } from "@/hooks/useProfile";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import anandProfileImg from "@/assets/images/anand-profile.jpg";
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const { profile } = useProfile();
+  const { trackPageView } = useAnalytics();
+
+  useEffect(() => {
+    // Track page view when Hero component mounts
+    trackPageView('/');
+  }, [trackPageView]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -63,8 +72,8 @@ export default function Hero() {
             >
               <ProfilePhoto 
                 size="xl"
-                alt="Anand Pinisetty - Entrepreneur, Founder & CEO, Developer"
-                src={anandProfileImg}
+                alt="Anand Pinisetty - Full-Stack Developer, UI/UX Designer, Tech Innovator"
+                src={profile.profileImageUrl || anandProfileImg}
               />
             </motion.div>
           </motion.div>
@@ -86,12 +95,12 @@ export default function Hero() {
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl mb-6 text-gray-300"
+              className="text-xl md:text-2xl lg:text-3xl mb-6 text-gray-300 font-medium"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
             >
-              Entrepreneur | Founder & CEO | Developer
+              Full-Stack Developer | UI/UX Designer | Tech Innovator
             </motion.p>
             
             <motion.p 
@@ -111,19 +120,32 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
             >
-              <Button 
-                onClick={() => scrollToSection('projects')}
-                className="bg-gradient-to-r from-gold to-gold-light text-black px-8 py-6 text-lg font-semibold hover:scale-105 transition-transform animate-glow"
+              <motion.div
+                whileHover={{ scale: 1.05, boxShadow: "0 12px 30px rgba(255, 215, 0, 0.4)" }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
               >
-                View My Work
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={() => scrollToSection('contact')}
-                className="border-2 border-gold text-gold px-8 py-6 text-lg font-semibold hover:bg-gold hover:text-black transition-all"
+                <Button 
+                  onClick={() => scrollToSection('projects')}
+                  className="bg-gradient-to-r from-gold to-gold-light text-black px-8 py-6 text-lg font-semibold rounded-full shadow-lg transition-all duration-300 border border-gold/20"
+                >
+                  View My Work
+                </Button>
+              </motion.div>
+              
+              <motion.div
+                whileHover={{ scale: 1.05, boxShadow: "0 12px 30px rgba(255, 255, 255, 0.15)" }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
               >
-                Get In Touch
-              </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => scrollToSection('contact')}
+                  className="border-2 border-gold text-gold px-8 py-6 text-lg font-semibold hover:bg-gold hover:text-black transition-all duration-300 rounded-full shadow-lg bg-transparent"
+                >
+                  Get In Touch
+                </Button>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>

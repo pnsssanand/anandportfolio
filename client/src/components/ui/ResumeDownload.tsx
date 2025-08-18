@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Download, Loader2, FileText } from "lucide-react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface ResumeData {
   url: string;
@@ -14,6 +15,7 @@ interface ResumeData {
 export default function ResumeDownload() {
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const [loading, setLoading] = useState(true);
+  const { trackDownload } = useAnalytics();
 
   useEffect(() => {
     loadResumeData();
@@ -34,8 +36,11 @@ export default function ResumeDownload() {
     }
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (resumeData) {
+      // Track the download in analytics
+      await trackDownload();
+      
       const link = document.createElement('a');
       link.href = resumeData.url;
       link.download = resumeData.filename;

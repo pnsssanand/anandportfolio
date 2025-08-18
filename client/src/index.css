@@ -87,6 +87,22 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
     overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Optimize performance */
+  img {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1000px;
+  }
+
+  /* GPU acceleration for animations */
+  .motion-reduce {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -96,18 +112,23 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    will-change: transform;
   }
   
   .glass-effect {
     background: rgba(42, 42, 42, 0.1);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: 16px;
+    will-change: transform;
   }
   
   .hero-3d {
     background: linear-gradient(135deg, var(--luxury-dark) 0%, var(--luxury-darker) 50%, var(--luxury-light) 100%);
     position: relative;
     overflow: hidden;
+    will-change: background;
   }
   
   .hero-3d::before {
@@ -120,6 +141,7 @@
     background: radial-gradient(circle at 30% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 70% 30%, rgba(30, 58, 138, 0.1) 0%, transparent 50%);
     animation: float 8s ease-in-out infinite;
+    will-change: transform;
   }
   
   .profile-photo-container {
@@ -131,12 +153,14 @@
   
   .profile-photo {
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
   
   .profile-photo img {
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     filter: brightness(1.05) contrast(1.1) saturate(1.1);
+    will-change: transform, filter;
   }
   
   .profile-photo:hover img {
@@ -156,6 +180,7 @@
     background-size: 400% 400%;
     animation: gradientShift 3s ease infinite;
     z-index: -1;
+    will-change: background-position;
   }
   
   .profile-photo::after {
@@ -169,14 +194,17 @@
     background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
     z-index: -2;
     animation: pulse 2s ease-in-out infinite;
+    will-change: transform, opacity;
   }
   
   .skill-bar {
-    transition: width 2s ease-in-out;
+    transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: width;
   }
   
   .project-card {
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
   
   .project-card:hover {
@@ -185,7 +213,7 @@
   
   .nav-link {
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .nav-link::after {
@@ -196,7 +224,8 @@
     width: 0;
     height: 2px;
     background: linear-gradient(90deg, var(--gold), var(--gold-light));
-    transition: width 0.3s ease;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: width;
   }
   
   .nav-link:hover::after {
@@ -206,12 +235,48 @@
   .section-reveal {
     opacity: 0;
     transform: translateY(50px);
-    transition: all 0.6s ease;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
   }
   
   .section-reveal.visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* Enhanced button styles */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none;
+    color: var(--luxury-dark);
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    will-change: transform, box-shadow;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    font-weight: 600;
+    padding: 10px 30px;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: background-color, color, transform;
+  }
+
+  .btn-secondary:hover {
+    background: var(--gold);
+    color: var(--luxury-dark);
+    transform: translateY(-2px);
   }
 }
 

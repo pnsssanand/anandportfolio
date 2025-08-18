@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 interface ProfilePhotoProps {
   src?: string;
@@ -20,6 +21,9 @@ export default function ProfilePhoto({
   size = "xl",
   className = ""
 }: ProfilePhotoProps) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
   return (
     <div className={`profile-photo-container ${className}`}>
       <motion.div
@@ -28,16 +32,38 @@ export default function ProfilePhoto({
         transition={{ duration: 0.3 }}
       >
         <div className={`${sizeClasses[size]} rounded-full border-4 border-gold shadow-2xl overflow-hidden relative`}>
-          {src ? (
-            <img 
-              src={src} 
-              alt={alt}
-              className="w-full h-full object-cover object-center scale-150"
-              style={{
-                objectPosition: 'center 25%',
-                transformOrigin: 'center center'
-              }}
-            />
+          {src && !imageError ? (
+            <>
+              {/* Loading placeholder */}
+              {!imageLoaded && (
+                <div className="absolute inset-0 bg-gradient-to-br from-luxury-light via-luxury-darker to-luxury-dark flex items-center justify-center">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full"
+                  />
+                </div>
+              )}
+              
+              <motion.img 
+                src={src} 
+                alt={alt}
+                loading="eager"
+                decoding="async"
+                className={`w-full h-full object-cover object-center scale-150 transition-opacity duration-500 ${
+                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                style={{
+                  objectPosition: 'center 25%',
+                  transformOrigin: 'center center'
+                }}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageError(true)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: imageLoaded ? 1 : 0 }}
+                transition={{ duration: 0.5 }}
+              />
+            </>
           ) : (
             // Placeholder with sophisticated gradient and initials
             <div className="w-full h-full bg-gradient-to-br from-luxury-light via-luxury-darker to-luxury-dark flex items-center justify-center relative">

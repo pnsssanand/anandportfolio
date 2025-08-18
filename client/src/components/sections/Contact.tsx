@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import ResumeDownload from "@/components/ui/ResumeDownload";
 import { 
   Mail, 
@@ -65,6 +66,7 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { trackMessage } = useAnalytics();
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -97,6 +99,9 @@ export default function Contact() {
         status: "new",
         createdAt: serverTimestamp(),
       });
+
+      // Track the message in analytics
+      await trackMessage();
 
       toast({
         title: "Message Sent!",
