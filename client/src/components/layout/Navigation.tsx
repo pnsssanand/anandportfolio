@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface NavigationProps {
   onAdminClick: () => void;
@@ -12,6 +13,7 @@ export default function Navigation({ onAdminClick }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const { isAdmin } = useAuth();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,7 +76,7 @@ export default function Navigation({ onAdminClick }: NavigationProps) {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`nav-link text-white hover:text-gold transition-colors ${
+                className={`nav-link text-foreground hover:text-gold transition-colors ${
                   activeSection === item.id ? "text-gold" : ""
                 }`}
               >
@@ -85,7 +87,7 @@ export default function Navigation({ onAdminClick }: NavigationProps) {
               variant="ghost"
               size="sm"
               onClick={onAdminClick}
-              className="text-white hover:text-gold transition-colors"
+              className="text-foreground hover:text-gold transition-colors"
             >
               <Shield className="w-4 h-4" />
               {isAdmin && <span className="ml-2">Admin</span>}
@@ -95,17 +97,17 @@ export default function Navigation({ onAdminClick }: NavigationProps) {
           {/* Mobile Navigation */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="md:hidden text-white">
+              <Button variant="ghost" size="sm" className="md:hidden text-foreground">
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-luxury-darker border-gold/20">
+            <SheetContent side="right" className="bg-background border-border">
               <div className="flex flex-col space-y-6 mt-8">
                 {navItems.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`text-left text-white hover:text-gold transition-colors text-lg ${
+                    className={`text-left text-foreground hover:text-gold transition-colors text-lg ${
                       activeSection === item.id ? "text-gold" : ""
                     }`}
                   >
@@ -114,7 +116,7 @@ export default function Navigation({ onAdminClick }: NavigationProps) {
                 ))}
                 <button
                   onClick={onAdminClick}
-                  className="flex items-center text-left text-white hover:text-gold transition-colors text-lg"
+                  className="flex items-center text-left text-foreground hover:text-gold transition-colors text-lg"
                 >
                   <Shield className="w-4 h-4 mr-2" />
                   Admin

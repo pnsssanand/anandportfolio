@@ -41,6 +41,12 @@ export default function Hero() {
     }
   };
 
+  // WhatsApp redirect handler for "Get In Touch" button
+  const handleWhatsAppRedirect = () => {
+    const whatsappUrl = "https://api.whatsapp.com/send/?phone=918985816481&text&type=phone_number&app_absent=0";
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <section 
       id="home" 
@@ -140,7 +146,7 @@ export default function Hero() {
               >
                 <Button 
                   variant="outline"
-                  onClick={() => scrollToSection('contact')}
+                  onClick={handleWhatsAppRedirect}
                   className="border-2 border-gold text-gold px-8 py-6 text-lg font-semibold hover:bg-gold hover:text-black transition-all duration-300 rounded-full shadow-lg bg-transparent"
                 >
                   Get In Touch

@@ -162,7 +162,7 @@ export default function Contact() {
           </motion.h2>
           <motion.p 
             variants={itemVariants}
-            className="text-xl text-gray-300"
+            className="text-xl text-muted-foreground"
           >
             Ready to discuss your next project or opportunity
           </motion.p>
@@ -187,16 +187,16 @@ export default function Contact() {
                     <div key={index} className="flex items-center">
                       <div className="text-gold mr-4">{item.icon}</div>
                       <div>
-                        <p className="text-gray-300">{item.label}</p>
+                        <p className="text-muted-foreground">{item.label}</p>
                         {item.href ? (
                           <a 
                             href={item.href}
-                            className="text-white hover:text-gold transition-colors"
+                            className="text-foreground hover:text-gold transition-colors"
                           >
                             {item.value}
                           </a>
                         ) : (
-                          <p className="text-white">{item.value}</p>
+                          <p className="text-foreground">{item.value}</p>
                         )}
                       </div>
                     </div>
@@ -218,28 +218,28 @@ export default function Contact() {
                         <Eye className="w-8 h-8" />
                       </div>
                       <p className="text-3xl font-bold text-gold">{projects.length}+</p>
-                      <p className="text-gray-300 text-sm">Projects Completed</p>
+                      <p className="text-muted-foreground text-sm">Projects Completed</p>
                     </div>
                     <div className="text-center">
                       <div className="text-gold mb-2 flex justify-center">
                         <FolderOpen className="w-8 h-8" />
                       </div>
                       <p className="text-3xl font-bold text-gold">{clientCount}+</p>
-                      <p className="text-gray-300 text-sm">Happy Clients</p>
+                      <p className="text-muted-foreground text-sm">Happy Clients</p>
                     </div>
                     <div className="text-center">
                       <div className="text-gold mb-2 flex justify-center">
                         <MessageSquare className="w-8 h-8" />
                       </div>
                       <p className="text-3xl font-bold text-gold">2+</p>
-                      <p className="text-gray-300 text-sm">Years Experience</p>
+                      <p className="text-muted-foreground text-sm">Years Experience</p>
                     </div>
                     <div className="text-center">
                       <div className="text-gold mb-2 flex justify-center">
                         <Download className="w-8 h-8" />
                       </div>
                       <p className="text-3xl font-bold text-gold">24/7</p>
-                      <p className="text-gray-300 text-sm">Support</p>
+                      <p className="text-muted-foreground text-sm">Support</p>
                     </div>
                   </div>
                 </CardContent>
@@ -256,41 +256,41 @@ export default function Contact() {
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <Label htmlFor="name" className="text-gray-300">Full Name *</Label>
+                    <Label htmlFor="name" className="text-muted-foreground">Full Name *</Label>
                     <Input
                       id="name"
                       type="text"
                       value={formData.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
                       placeholder="Your full name"
-                      className="bg-luxury-light border-gray-600 text-white focus:border-gold mt-2"
+                      className="bg-muted border-border text-foreground focus:border-gold mt-2"
                       required
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor="email" className="text-gray-300">Email Address *</Label>
+                    <Label htmlFor="email" className="text-muted-foreground">Email Address *</Label>
                     <Input
                       id="email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
                       placeholder="your.email@example.com"
-                      className="bg-luxury-light border-gray-600 text-white focus:border-gold mt-2"
+                      className="bg-muted border-border text-foreground focus:border-gold mt-2"
                       required
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor="subject" className="text-gray-300">Subject *</Label>
+                    <Label htmlFor="subject" className="text-muted-foreground">Subject *</Label>
                     <Select 
                       value={formData.subject} 
                       onValueChange={(value) => handleInputChange("subject", value)}
                     >
-                      <SelectTrigger className="bg-luxury-light border-gray-600 text-white focus:border-gold mt-2">
+                      <SelectTrigger className="bg-muted border-border text-foreground focus:border-gold mt-2">
                         <SelectValue placeholder="Select a subject" />
                       </SelectTrigger>
-                      <SelectContent className="bg-luxury-light border-gray-600">
+                      <SelectContent className="bg-background border-border">
                         <SelectItem value="project">Project Inquiry</SelectItem>
                         <SelectItem value="collaboration">Collaboration</SelectItem>
                         <SelectItem value="consultation">Consultation</SelectItem>
@@ -300,14 +300,14 @@ export default function Contact() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="message" className="text-gray-300">Message *</Label>
+                    <Label htmlFor="message" className="text-muted-foreground">Message *</Label>
                     <Textarea
                       id="message"
                       value={formData.message}
                       onChange={(e) => handleInputChange("message", e.target.value)}
                       placeholder="Tell me about your project or inquiry..."
                       rows={5}
-                      className="bg-luxury-light border-gray-600 text-white focus:border-gold mt-2"
+                      className="bg-muted border-border text-foreground focus:border-gold mt-2"
                       required
                     />
                   </div>

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import AdminDashboard from "@/components/admin/AdminDashboard";
 import Footer from "@/components/layout/Footer";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield, Loader2 } from "lucide-react";
 
@@ -21,7 +22,7 @@ export default function Admin({ onBackToPortfolio }: AdminProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-luxury-dark flex flex-col">
+      <div className="min-h-screen bg-luxury-dark flex flex-col" data-admin-context="true">
         <div className="flex-1 flex items-center justify-center">
           <Card className="glass-effect border-gold/20 bg-transparent">
             <CardContent className="p-8 text-center">
@@ -38,7 +39,7 @@ export default function Admin({ onBackToPortfolio }: AdminProps) {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-luxury-dark flex flex-col">
+      <div className="min-h-screen bg-luxury-dark flex flex-col" data-admin-context="true">
         <div className="flex-1 flex items-center justify-center">
           <Card className="glass-effect border-red-500/20 bg-transparent">
             <CardContent className="p-8 text-center">
@@ -60,7 +61,9 @@ export default function Admin({ onBackToPortfolio }: AdminProps) {
   }
 
   return (
-    <div className="min-h-screen bg-luxury-dark flex flex-col">
+    <div className="min-h-screen bg-luxury-dark flex flex-col" data-admin-context="true">
+      {/* Theme toggle available only in admin dashboard */}
+      <ThemeToggle />
       <div className="flex-1">
         <AdminDashboard onBackToPortfolio={onBackToPortfolio} />
       </div>

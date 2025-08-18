@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 :root {
+  /* Default to dark theme variables for portfolio site */
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);
   --card: hsl(240, 10%, 3.9%);
@@ -41,7 +42,7 @@
   --font-mono: "Geist Mono", monospace;
   --radius: 1.3rem;
   
-  /* Custom luxury colors */
+  /* Custom luxury colors - default to dark theme */
   --luxury-dark: hsl(0, 0%, 4%);
   --luxury-darker: hsl(0, 0%, 10%);
   --luxury-light: hsl(0, 0%, 16%);
@@ -77,6 +78,43 @@
   --chart-3: hsl(197, 37%, 24%);
   --chart-4: hsl(43, 74%, 66%);
   --chart-5: hsl(27, 87%, 67%);
+  
+  /* Custom luxury colors for dark mode */
+  --luxury-dark: hsl(0, 0%, 4%);
+  --luxury-darker: hsl(0, 0%, 10%);
+  --luxury-light: hsl(0, 0%, 16%);
+}
+
+.light {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(240, 10%, 3.9%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(240, 10%, 3.9%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(240, 10%, 3.9%);
+  --primary: hsl(47, 81%, 56%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(240, 4.8%, 95.9%);
+  --secondary-foreground: hsl(240, 5.9%, 10%);
+  --muted: hsl(240, 4.8%, 95.9%);
+  --muted-foreground: hsl(240, 3.8%, 45%);
+  --accent: hsl(240, 4.8%, 95.9%);
+  --accent-foreground: hsl(240, 5.9%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 5.9%, 90%);
+  --input: hsl(240, 5.9%, 90%);
+  --ring: hsl(47, 81%, 56%);
+  --chart-1: hsl(47, 81%, 56%);
+  --chart-2: hsl(173, 58%, 39%);
+  --chart-3: hsl(197, 37%, 24%);
+  --chart-4: hsl(43, 74%, 66%);
+  --chart-5: hsl(27, 87%, 67%);
+  
+  /* Custom luxury colors for light mode */
+  --luxury-dark: hsl(0, 0%, 98%);
+  --luxury-darker: hsl(0, 0%, 96%);
+  --luxury-light: hsl(0, 0%, 94%);
 }
 
 @layer base {
@@ -124,11 +162,23 @@
     will-change: transform;
   }
   
+  .light .glass-effect {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
   .hero-3d {
     background: linear-gradient(135deg, var(--luxury-dark) 0%, var(--luxury-darker) 50%, var(--luxury-light) 100%);
     position: relative;
     overflow: hidden;
     will-change: background;
+  }
+  
+  .light .hero-3d {
+    background: linear-gradient(135deg, var(--luxury-dark) 0%, var(--luxury-darker) 50%, var(--luxury-light) 100%);
   }
   
   .hero-3d::before {

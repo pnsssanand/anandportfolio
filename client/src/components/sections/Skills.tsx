@@ -107,7 +107,7 @@ export default function Skills() {
           </motion.h2>
           <motion.p 
             variants={itemVariants}
-            className="text-xl text-gray-300"
+            className="text-xl text-muted-foreground"
           >
             Technical proficiencies and professional capabilities
           </motion.p>
@@ -140,7 +140,7 @@ export default function Skills() {
                     >
                       {skill.icon}
                     </motion.span>
-                    <span className="text-white font-medium">{skill.name}</span>
+                    <span className="text-foreground font-medium">{skill.name}</span>
                   </div>
                   <motion.span 
                     className="text-gold font-bold text-lg"
@@ -196,7 +196,7 @@ export default function Skills() {
                       whileHover={{ scale: 1.5 }}
                       transition={{ duration: 0.3 }}
                     />
-                    <span className="text-white font-medium">{skill}</span>
+                    <span className="text-foreground font-medium">{skill}</span>
                   </div>
                 </motion.div>
               ))}
@@ -225,7 +225,7 @@ export default function Skills() {
                   >
                     100%
                   </motion.div>
-                  <p className="text-gray-300 text-sm">Client Satisfaction</p>
+                  <p className="text-muted-foreground text-sm">Client Satisfaction</p>
                 </div>
                 <div>
                   <motion.div 
@@ -236,7 +236,7 @@ export default function Skills() {
                   >
                     2+
                   </motion.div>
-                  <p className="text-gray-300 text-sm">Years Excellence</p>
+                  <p className="text-muted-foreground text-sm">Years Excellence</p>
                 </div>
               </div>
             </motion.div>
