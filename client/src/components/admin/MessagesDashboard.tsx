@@ -148,7 +148,7 @@ export default function MessagesDashboard() {
         )}
       </div>
 
-      {/* Quick Stats */}
+      {/* Quick Status */}
       <div className="grid md:grid-cols-4 gap-4">
         <Card className="glass-effect border-blue-500/20 bg-blue-500/5">
           <CardContent className="p-4 text-center">

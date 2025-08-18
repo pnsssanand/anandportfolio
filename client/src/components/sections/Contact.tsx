@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useProjects } from "@/hooks/useProjects";
+import { useClients } from "@/hooks/useClients";
 import ResumeDownload from "@/components/ui/ResumeDownload";
 import { 
   Mail, 
@@ -18,7 +20,9 @@ import {
   MessageSquare, 
   FolderOpen, 
   Download,
-  Loader2
+  Loader2,
+  CheckCircle,
+  AlertTriangle
 } from "lucide-react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -50,13 +54,6 @@ const contactInfo = [
   },
 ];
 
-const quickStats = [
-  { icon: <Eye className="w-8 h-8" />, value: "15+", label: "Projects Completed" },
-  { icon: <MessageSquare className="w-8 h-8" />, value: "2+", label: "Years Experience" },
-  { icon: <FolderOpen className="w-8 h-8" />, value: "10+", label: "Happy Clients" },
-  { icon: <Download className="w-8 h-8" />, value: "24/7", label: "Support" },
-];
-
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -67,6 +64,8 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { trackMessage } = useAnalytics();
+  const { projects } = useProjects();
+  const { clientCount } = useClients();
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -78,8 +77,9 @@ export default function Contact() {
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
       toast({
         variant: "destructive",
-        title: "Validation Error",
+        title: "❌ Validation Error",
         description: "Please fill in all required fields.",
+        className: "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999] border-red-500 bg-red-950 text-white",
       });
       return;
     }
@@ -104,8 +104,9 @@ export default function Contact() {
       await trackMessage();
 
       toast({
-        title: "Message Sent!",
-        description: "Thank you for your message. I'll get back to you soon.",
+        title: "✅ Your message has been sent successfully!",
+        description: "Thank you for reaching out. I'll get back to you soon.",
+        className: "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999] border-green-500 bg-green-950 text-white",
       });
 
       setFormData({ name: "", email: "", subject: "", message: "" });
@@ -113,8 +114,9 @@ export default function Contact() {
       console.error("Error sending message:", error);
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to send message. Please try again later.",
+        title: "❌ Failed to send message. Please try again.",
+        description: "There was an error processing your request. Please try again later.",
+        className: "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[9999] border-red-500 bg-red-950 text-white",
       });
     } finally {
       setIsSubmitting(false);
@@ -203,7 +205,7 @@ export default function Contact() {
               </Card>
             </motion.div>
             
-            {/* Quick Stats */}
+            {/* Quick Status */}
             <motion.div variants={itemVariants}>
               <Card className="glass-effect border-gold/20 bg-transparent">
                 <CardHeader>
@@ -211,13 +213,34 @@ export default function Contact() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
-                    {quickStats.map((stat, index) => (
-                      <div key={index} className="text-center">
-                        <div className="text-gold mb-2 flex justify-center">{stat.icon}</div>
-                        <p className="text-3xl font-bold text-gold">{stat.value}</p>
-                        <p className="text-gray-300 text-sm">{stat.label}</p>
+                    <div className="text-center">
+                      <div className="text-gold mb-2 flex justify-center">
+                        <Eye className="w-8 h-8" />
                       </div>
-                    ))}
+                      <p className="text-3xl font-bold text-gold">{projects.length}+</p>
+                      <p className="text-gray-300 text-sm">Projects Completed</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-gold mb-2 flex justify-center">
+                        <FolderOpen className="w-8 h-8" />
+                      </div>
+                      <p className="text-3xl font-bold text-gold">{clientCount}+</p>
+                      <p className="text-gray-300 text-sm">Happy Clients</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-gold mb-2 flex justify-center">
+                        <MessageSquare className="w-8 h-8" />
+                      </div>
+                      <p className="text-3xl font-bold text-gold">2+</p>
+                      <p className="text-gray-300 text-sm">Years Experience</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-gold mb-2 flex justify-center">
+                        <Download className="w-8 h-8" />
+                      </div>
+                      <p className="text-3xl font-bold text-gold">24/7</p>
+                      <p className="text-gray-300 text-sm">Support</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

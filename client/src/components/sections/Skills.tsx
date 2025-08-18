@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { 
   Users, 
@@ -10,28 +9,27 @@ import {
   Handshake,
   Code,
   Palette,
-  BarChart3,
-  Video
+  Database,
+  Cloud,
+  Bot,
+  Github as GithubIcon
 } from "lucide-react";
 
-const technicalSkills = [
-  { name: "AI Web Development", proficiency: 90, icon: <Code className="w-4 h-4" /> },
-  { name: "HTML, CSS, JavaScript", proficiency: 85, icon: <Code className="w-4 h-4" /> },
-  { name: "UI & UX Design", proficiency: 80, icon: <Palette className="w-4 h-4" /> },
-  { name: "Digital Marketing", proficiency: 88, icon: <BarChart3 className="w-4 h-4" /> },
-  { name: "AI Video Development", proficiency: 75, icon: <Video className="w-4 h-4" /> },
+const coreSkills = [
+  { name: "HTML, CSS, JavaScript", proficiency: 95, icon: <Code className="w-5 h-5" /> },
+  { name: "UI & UX Design", proficiency: 90, icon: <Palette className="w-5 h-5" /> },
+  { name: "React.js", proficiency: 85, icon: <Code className="w-5 h-5" /> },
+  { name: "Firebase", proficiency: 85, icon: <Database className="w-5 h-5" /> },
+  { name: "Cloudinary", proficiency: 80, icon: <Cloud className="w-5 h-5" /> },
+  { name: "AI APIs", proficiency: 80, icon: <Bot className="w-5 h-5" /> },
+  { name: "GitHub", proficiency: 80, icon: <GithubIcon className="w-5 h-5" /> },
 ];
 
-const professionalSkills = [
-  { name: "Leadership", description: "Team Management", icon: <Users className="w-8 h-8" /> },
-  { name: "Innovation", description: "Creative Problem Solving", icon: <Lightbulb className="w-8 h-8" /> },
-  { name: "Strategy", description: "Strategic Planning", icon: <TrendingUp className="w-8 h-8" /> },
-  { name: "Relations", description: "Client Management", icon: <Handshake className="w-8 h-8" /> },
-];
-
-const technologies = [
-  "React", "Firebase", "Cloudinary", "AI APIs", "Node.js", "MongoDB", 
-  "Python", "TensorFlow", "Next.js", "TypeScript", "Tailwind CSS", "Express.js"
+const softSkills = [
+  "Leadership & Team Management",
+  "Creative Problem Solving", 
+  "Strategic Planning",
+  "Client Relationship Management",
 ];
 
 export default function Skills() {
@@ -122,11 +120,11 @@ export default function Skills() {
           variants={containerVariants}
           className="grid md:grid-cols-2 gap-12"
         >
-          {/* Technical Skills */}
+          {/* Core Skills */}
           <motion.div variants={itemVariants} className="space-y-6">
-            <h3 className="text-2xl font-semibold mb-6 text-gold">Technical Skills</h3>
+            <h3 className="text-2xl font-semibold mb-6 text-gold">Core Skills</h3>
             
-            {technicalSkills.map((skill, index) => (
+            {coreSkills.map((skill, index) => (
               <motion.div
                 key={skill.name}
                 variants={skillCardVariants}
@@ -177,107 +175,70 @@ export default function Skills() {
             ))}
           </motion.div>
 
-          {/* Professional Skills */}
+          {/* Soft Skills */}
           <motion.div variants={itemVariants} className="space-y-6">
-            <h3 className="text-2xl font-semibold mb-6 text-gold">Professional Skills</h3>
+            <h3 className="text-2xl font-semibold mb-6 text-gold">Soft Skills</h3>
             
-            <div className="grid grid-cols-2 gap-6">
-              {professionalSkills.map((skill, index) => (
+            <div className="space-y-4">
+              {softSkills.map((skill, index) => (
                 <motion.div
-                  key={skill.name}
+                  key={skill}
                   variants={skillCardVariants}
-                  whileHover={{ scale: 1.08, y: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="glass-effect p-6 rounded-xl text-center transition-all duration-300 hover:border-gold/60 hover:shadow-2xl hover:shadow-gold/25 cursor-pointer"
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 + 0.3 }}
+                  className="glass-effect p-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-gold/10 hover:border-gold/30"
                 >
-                  <motion.div 
-                    className="text-gold mb-4 flex justify-center"
-                    whileHover={{ scale: 1.3, rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    {skill.icon}
-                  </motion.div>
-                  <motion.h4 
-                    className="font-bold text-white text-lg mb-2"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: index * 0.1 + 0.5 }}
-                  >
-                    {skill.name}
-                  </motion.h4>
-                  <motion.p 
-                    className="text-sm text-gray-300 font-medium"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: index * 0.1 + 0.7 }}
-                  >
-                    {skill.description}
-                  </motion.p>
+                  <div className="flex items-center gap-3">
+                    <motion.div 
+                      className="w-2 h-2 bg-gradient-to-r from-gold to-gold-light rounded-full"
+                      whileHover={{ scale: 1.5 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                    <span className="text-white font-medium">{skill}</span>
+                  </div>
                 </motion.div>
               ))}
             </div>
-            
-            {/* Technologies */}
-            <motion.div variants={itemVariants} className="mt-10">
+
+            {/* Professional Highlights */}
+            <motion.div 
+              variants={itemVariants} 
+              className="mt-10 p-6 glass-effect rounded-xl border-gold/20"
+            >
               <motion.h4 
-                className="text-xl font-semibold mb-6 text-gold"
+                className="text-xl font-semibold mb-4 text-gold flex items-center gap-2"
                 whileInView={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 0.6 }}
               >
-                Technologies & Tools
+                <Users className="w-5 h-5" />
+                Professional Highlights
               </motion.h4>
-              <motion.div 
-                className="flex flex-wrap gap-4"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.08,
-                    },
-                  },
-                }}
-              >
-                {technologies.map((tech, index) => (
-                  <motion.div
-                    key={tech}
-                    variants={{
-                      hidden: { opacity: 0, scale: 0.6, y: 20 },
-                      visible: { 
-                        opacity: 1, 
-                        scale: 1, 
-                        y: 0,
-                        transition: {
-                          duration: 0.5,
-                          ease: "easeOut",
-                        },
-                      },
-                    }}
-                    whileHover={{ 
-                      scale: 1.1, 
-                      y: -3,
-                      transition: { duration: 0.2 }
-                    }}
-                    whileTap={{ scale: 0.95 }}
+              <div className="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <motion.div 
+                    className="text-2xl font-bold text-gold mb-1"
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
                   >
-                    <Badge 
-                      variant="secondary" 
-                      className={`${
-                        index % 3 === 0 
-                          ? 'bg-gradient-to-r from-gold to-gold-light text-black hover:shadow-lg hover:shadow-gold/50' 
-                          : index % 3 === 1
-                          ? 'bg-gradient-to-r from-royal to-royal-light text-white hover:shadow-lg hover:shadow-royal/50'
-                          : 'bg-gradient-to-r from-gray-600 to-gray-500 text-white hover:shadow-lg hover:shadow-gray/50'
-                      } transition-all duration-300 cursor-pointer font-medium px-4 py-2 text-sm`}
-                    >
-                      {tech}
-                    </Badge>
+                    100%
                   </motion.div>
-                ))}
-              </motion.div>
+                  <p className="text-gray-300 text-sm">Client Satisfaction</p>
+                </div>
+                <div>
+                  <motion.div 
+                    className="text-2xl font-bold text-gold mb-1"
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    transition={{ delay: 0.7, type: "spring", stiffness: 100 }}
+                  >
+                    2+
+                  </motion.div>
+                  <p className="text-gray-300 text-sm">Years Excellence</p>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         </motion.div>

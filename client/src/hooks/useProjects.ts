@@ -8,7 +8,8 @@ import {
   getDocs, 
   query, 
   orderBy, 
-  serverTimestamp 
+  serverTimestamp,
+  onSnapshot
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Project, InsertProject } from "@shared/schema";
@@ -21,12 +22,12 @@ export function useProjects() {
   const { toast } = useToast();
   const { updateProjectCount } = useAnalytics();
 
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      const q = query(collection(db, "projects"), orderBy("createdAt", "desc"));
-      const querySnapshot = await getDocs(q);
-      
+  useEffect(() => {
+    setLoading(true);
+    
+    const q = query(collection(db, "projects"), orderBy("createdAt", "desc"));
+    
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const projectsData = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
@@ -35,20 +36,22 @@ export function useProjects() {
       })) as Project[];
       
       setProjects(projectsData);
+      setLoading(false);
       
       // Update analytics with current project count
-      await updateProjectCount(projectsData.length);
-    } catch (error) {
+      updateProjectCount(projectsData.length);
+    }, (error) => {
       console.error("Error fetching projects:", error);
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to fetch projects",
       });
-    } finally {
       setLoading(false);
-    }
-  };
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const addProject = async (projectData: InsertProject) => {
     try {
@@ -57,8 +60,6 @@ export function useProjects() {
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
-      
-      await fetchProjects(); // Refresh the list
       
       toast({
         title: "Success",
@@ -85,8 +86,6 @@ export function useProjects() {
         updatedAt: serverTimestamp(),
       });
       
-      await fetchProjects(); // Refresh the list
-      
       toast({
         title: "Success",
         description: "Project updated successfully",
@@ -107,8 +106,6 @@ export function useProjects() {
       const docRef = doc(db, "projects", id);
       await deleteDoc(docRef);
       
-      await fetchProjects(); // Refresh the list
-      
       toast({
         title: "Success",
         description: "Project deleted successfully",
@@ -124,16 +121,11 @@ export function useProjects() {
     }
   };
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
   return {
     projects,
     loading,
     addProject,
     updateProject,
     deleteProject,
-    refreshProjects: fetchProjects,
   };
 }

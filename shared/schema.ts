@@ -107,6 +107,21 @@ export const insertUserSchema = userSchema.omit({
   createdAt: true,
 });
 
+// Client Schema
+export const clientSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  company: z.string().optional(),
+  project: z.string().optional(),
+  email: z.string().email().optional(),
+  createdAt: z.date(),
+});
+
+export const insertClientSchema = clientSchema.omit({
+  id: true,
+  createdAt: true,
+});
+
 // Type exports
 export type Project = z.infer<typeof projectSchema>;
 export type InsertProject = z.infer<typeof insertProjectSchema>;
@@ -121,3 +136,5 @@ export type InsertEducation = z.infer<typeof insertEducationSchema>;
 export type Analytics = z.infer<typeof analyticsSchema>;
 export type User = z.infer<typeof userSchema>;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type Client = z.infer<typeof clientSchema>;
+export type InsertClient = z.infer<typeof insertClientSchema>;
