@@ -17,7 +17,8 @@ import {
   Upload, 
   ExternalLink, 
   Loader2,
-  X
+  X,
+  FolderOpen
 } from "lucide-react";
 import { InsertProject, Project } from "@shared/schema";
 
@@ -190,20 +191,36 @@ export default function ProjectManager() {
           ))}
         </div>
       ) : projects.length === 0 ? (
-        <Card className="glass-effect border-gold/20 bg-transparent">
-          <CardContent className="p-8 text-center">
-            <h3 className="text-xl font-semibold text-gold mb-4">No Projects Yet</h3>
-            <p className="text-gray-300 mb-6">Start by adding your first project.</p>
-            <Button 
-              onClick={() => openModal()}
-              className="bg-gradient-to-r from-gold to-gold-light text-black"
-            >
-              Add Your First Project
-            </Button>
-          </CardContent>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Card className="glass-effect border-gold/20 bg-transparent">
+            <CardContent className="p-12 text-center">
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <FolderOpen className="w-24 h-24 text-gold mx-auto mb-6" />
+              </motion.div>
+              <h3 className="text-2xl font-bold text-gold mb-4">No Projects Yet</h3>
+              <p className="text-gray-300 mb-8 max-w-md mx-auto">
+                Start building your portfolio by adding your first project. Showcase your work and let your creativity shine!
+              </p>
+              <Button 
+                onClick={() => openModal()}
+                className="bg-gradient-to-r from-gold to-gold-light text-black px-8 py-3 text-lg font-semibold hover:scale-105 transition-transform"
+              >
+                <Plus className="w-5 h-5 mr-2" />
+                Add Your First Project
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
       ) : (
-        <div className="grid gap-6">
+        <div className="grid gap-8">
           {projects.map((project) => (
             <motion.div
               key={project.id}
@@ -211,62 +228,128 @@ export default function ProjectManager() {
               animate={{ opacity: 1, y: 0 }}
               className="group"
             >
-              <Card className="glass-effect border-gold/20 bg-transparent">
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-xl font-semibold text-gold">{project.title}</h3>
-                        {project.featured && (
-                          <Badge className="bg-gold text-black">Featured</Badge>
-                        )}
-                      </div>
-                      <p className="text-gray-300 mb-4">{project.description}</p>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.techStack.map((tech) => (
-                          <Badge key={tech} variant="secondary" className="bg-royal text-white">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                      {project.link && (
-                        <a 
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center text-gold hover:text-gold-light transition-colors"
-                        >
-                          <ExternalLink className="w-4 h-4 mr-1" />
-                          View Project
-                        </a>
+              <Card className="glass-effect border-gold/20 bg-transparent hover:border-gold/40 transition-all duration-300 shadow-lg hover:shadow-2xl">
+                <CardContent className="p-0">
+                  {/* Two-column layout */}
+                  <div className="grid md:grid-cols-5 gap-0">
+                    {/* Left side - Project Image */}
+                    <div className="md:col-span-2">
+                      {project.media ? (
+                        <div className="relative h-48 md:h-full min-h-[200px] overflow-hidden rounded-l-lg">
+                          <img 
+                            src={project.media} 
+                            alt={project.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          {project.featured && (
+                            <div className="absolute top-3 left-3">
+                              <Badge className="bg-gold text-black font-semibold shadow-lg">
+                                Featured
+                              </Badge>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="h-48 md:h-full min-h-[200px] bg-gradient-to-br from-gray-800 to-gray-900 rounded-l-lg flex items-center justify-center">
+                          <div className="text-center">
+                            <FolderOpen className="w-16 h-16 text-gray-400 mx-auto mb-3" />
+                            <p className="text-gray-400 text-sm">No Image</p>
+                          </div>
+                          {project.featured && (
+                            <div className="absolute top-3 left-3">
+                              <Badge className="bg-gold text-black font-semibold shadow-lg">
+                                Featured
+                              </Badge>
+                            </div>
+                          )}
+                        </div>
                       )}
                     </div>
-                    <div className="flex space-x-2 ml-4">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => openModal(project)}
-                        className="text-blue-400 border-blue-400 hover:bg-blue-400 hover:text-white"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(project.id)}
-                        className="text-red-400 border-red-400 hover:bg-red-400 hover:text-white"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
+
+                    {/* Right side - Project Details */}
+                    <div className="md:col-span-3 p-6 flex flex-col justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <h3 className="text-2xl font-bold text-gold mb-2 group-hover:text-gold-light transition-colors">
+                              {project.title}
+                            </h3>
+                            <p className="text-gray-300 text-base leading-relaxed mb-4">
+                              {project.description}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Tech Stack */}
+                        <div className="mb-6">
+                          <h4 className="text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+                            Technologies
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {project.techStack.map((tech) => (
+                              <Badge 
+                                key={tech} 
+                                variant="secondary" 
+                                className="bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors px-3 py-1"
+                              >
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Project Link */}
+                        {project.link && (
+                          <div className="mb-6">
+                            <a 
+                              href={project.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center text-gold hover:text-gold-light transition-colors font-medium"
+                            >
+                              <ExternalLink className="w-4 h-4 mr-2" />
+                              View Live Project
+                            </a>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-700">
+                        <Button
+                          onClick={() => project.link && window.open(project.link, '_blank')}
+                          disabled={!project.link}
+                          className="bg-gradient-to-r from-gold to-gold-light text-black font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="View Project"
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          View Project
+                        </Button>
+                        
+                        <Button
+                          variant="outline"
+                          size="default"
+                          onClick={() => openModal(project)}
+                          className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white transition-all group/edit"
+                          title="Edit Project"
+                        >
+                          <Edit className="w-4 h-4 mr-2 group-hover/edit:rotate-12 transition-transform" />
+                          Edit
+                        </Button>
+                        
+                        <Button
+                          variant="outline"
+                          size="default"
+                          onClick={() => handleDelete(project.id)}
+                          className="border-red-400 text-red-400 hover:bg-red-400 hover:text-white transition-all group/delete"
+                          title="Delete Project"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2 group-hover/delete:scale-110 transition-transform" />
+                          Delete
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                  {project.media && (
-                    <img 
-                      src={project.media} 
-                      alt={project.title}
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
-                  )}
                 </CardContent>
               </Card>
             </motion.div>
