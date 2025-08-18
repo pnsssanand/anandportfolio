@@ -21,33 +21,29 @@ export function useProfile() {
 
   useEffect(() => {
     const profileRef = doc(db, 'profile', 'main');
+    let initialized = false;
     
-    // Initialize profile document if it doesn't exist
-    const initializeProfile = async () => {
-      try {
-        const profileDoc = await getDoc(profileRef);
-        if (!profileDoc.exists()) {
-          const initialData = {
-            profileImageUrl: '',
-            lastUpdated: new Date()
-          };
-          await setDoc(profileRef, initialData);
-        }
-      } catch (error) {
-        console.error('Error initializing profile:', error);
-      }
-    };
-
-    initializeProfile();
-
     // Set up real-time listener for live updates
-    const unsubscribe = onSnapshot(profileRef, (doc) => {
+    const unsubscribe = onSnapshot(profileRef, async (doc) => {
       if (doc.exists()) {
         const data = doc.data();
         setProfile({
           profileImageUrl: data.profileImageUrl || '',
           lastUpdated: data.lastUpdated?.toDate() || new Date()
         });
+        initialized = true;
+      } else if (!initialized) {
+        // Only initialize once if document doesn't exist
+        try {
+          const initialData = {
+            profileImageUrl: '',
+            lastUpdated: new Date()
+          };
+          await setDoc(profileRef, initialData);
+          initialized = true;
+        } catch (error) {
+          console.error('Error initializing profile:', error);
+        }
       }
       setLoading(false);
     });
@@ -106,6 +102,17 @@ export function useProfile() {
     setUploadProgress(0);
     
     try {
+      // Validate file before processing
+      if (!file || file.size === 0) {
+        throw new Error('Invalid file selected');
+      }
+
+      // Check if we're already uploading to prevent duplicate operations
+      if (uploading) {
+        console.warn('Upload already in progress, skipping duplicate request');
+        return '';
+      }
+
       // Delete existing image from storage if it exists
       if (profile.profileImageUrl) {
         try {
@@ -136,12 +143,15 @@ export function useProfile() {
         setUploadProgress(100);
       }
       
-      // Store the image URL in Firestore for real-time sync
-      const profileRef = doc(db, 'profile', 'main');
-      await setDoc(profileRef, {
-        profileImageUrl: downloadURL,
-        lastUpdated: new Date()
-      }, { merge: true });
+      // Only update Firestore if the URL has actually changed
+      if (downloadURL !== profile.profileImageUrl) {
+        // Store the image URL in Firestore for real-time sync
+        const profileRef = doc(db, 'profile', 'main');
+        await setDoc(profileRef, {
+          profileImageUrl: downloadURL,
+          lastUpdated: new Date()
+        }, { merge: true });
+      }
       
       toast({
         title: 'Success!',

@@ -34,7 +34,7 @@ app.get("/api/portfolio", (req, res) => {
     name: "Anand Pinisetty",
     title: "Entrepreneur, Founder & CEO, Developer",
     location: "Kakinada, Andhra Pradesh, India",
-    email: "anandpinisetty@gmail.com"
+    email: "pnsssanand@gmail.com"
   });
 });
 

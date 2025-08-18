@@ -106,7 +106,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
             >
-              Full-Stack Developer | UI/UX Designer | Tech Innovator
+              AI Full-Stack Developer | AI Architect
+
             </motion.p>
             
             <motion.p 

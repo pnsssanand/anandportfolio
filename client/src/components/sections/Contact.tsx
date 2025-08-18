@@ -32,8 +32,8 @@ const contactInfo = [
   {
     icon: <Mail className="w-6 h-6" />,
     label: "Email",
-    value: "anandpinisetty@gmail.com",
-    href: "mailto:anandpinisetty@gmail.com",
+    value: "pnsssanand@gmail.com",
+    href: "mailto:pnsssanand@gmail.com",
   },
   {
     icon: <MapPin className="w-6 h-6" />,

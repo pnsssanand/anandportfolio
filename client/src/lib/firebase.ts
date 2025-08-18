@@ -29,6 +29,6 @@ export const cloudinaryConfig = {
 };
 
 // Admin email for authentication
-export const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "anandpinisetty@gmail.com";
+export const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "pnsssanand@gmail.com";
 
 export default app;

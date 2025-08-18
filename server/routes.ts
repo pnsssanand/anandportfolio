@@ -19,7 +19,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       name: "Anand Pinisetty",
       title: "Entrepreneur, Founder & CEO, Developer",
       location: "Kakinada, Andhra Pradesh, India",
-      email: "anandpinisetty@gmail.com"
+      email: "pnsssanand@gmail.com"
     });
   });
 

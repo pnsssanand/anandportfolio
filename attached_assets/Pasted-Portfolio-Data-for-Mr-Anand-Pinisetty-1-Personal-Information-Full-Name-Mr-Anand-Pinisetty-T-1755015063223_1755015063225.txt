@@ -90,7 +90,7 @@ Edit
   "link": "https://example.com/project"
 }
 5. Contact Information
-Email: anandpinisetty@gmail.com
+Email: pnsssanand@gmail.com
 
 Phone: (Add actual contact number)
 
@@ -103,7 +103,7 @@ Location: Kakinada, Andhra Pradesh, India
 Contact Form Requirements: Store form submissions in Firebase; show confirmation message on success.
 
 6. Admin Credentials (For Firebase Authentication)
-Admin Email: anandpinisetty@gmail.com
+Admin Email: pnsssanand@gmail.com
 
 Admin Authentication: Stored in Firebase Authentication and verified against Firestore.
 
@@ -156,7 +156,7 @@ Admin Dashboard
 
 Secure login with Firebase Authentication.
 
-Only the stored admin user (anandpinisetty@gmail.com) can access.
+Only the stored admin user (pnsssanand@gmail.com) can access.
 
 CRUD operations for all portfolio sections: About Me, Education, Skills, Projects, Contact Info.
 

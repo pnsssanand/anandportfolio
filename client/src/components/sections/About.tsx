@@ -71,7 +71,7 @@ export default function About() {
             variants={itemVariants}
             className="text-xl text-gray-300 max-w-3xl mx-auto"
           >
-            Based in Kakinada, Andhra Pradesh, India. Currently pursuing B.Tech in Computer Science 
+            Based in Kakinada, Andhra Pradesh, India. Currently pursuing B.Tech Final Year  in Computer Science 
             with specialization in Artificial Intelligence & Data Science at KIET.
           </motion.p>
         </motion.div>

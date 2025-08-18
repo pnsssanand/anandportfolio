@@ -32,7 +32,7 @@ function App() {
     });
     
     // Set page title and meta description
-    document.title = "Anand Pinisetty - Full-Stack Developer | UI/UX Designer | Tech Innovator";
+    document.title = "Anand Pinisetty - Full-Stack Developer AI Arichtect";
     
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
@@ -105,7 +105,7 @@ function App() {
       "jobTitle": "Full-Stack Developer, UI/UX Designer, Tech Innovator",
       "description": "Dynamic and results-driven professional with expertise in full-stack development, UI/UX design, and innovative technology solutions",
       "url": window.location.origin,
-      "email": "anandpinisetty@gmail.com",
+      "email": "pnsssanand@gmail.com",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Kakinada",

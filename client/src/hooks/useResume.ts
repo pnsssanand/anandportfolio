@@ -73,12 +73,18 @@ export function useResume() {
       throw new Error('Invalid file');
     }
 
+    // Prevent duplicate uploads
+    if (uploading) {
+      console.warn('Resume upload already in progress');
+      return '';
+    }
+
     setUploading(true);
     setUploadProgress(0);
 
     try {
-      // Delete existing resume if it exists
-      if (resumeData) {
+      // Only delete existing resume if we have a different file
+      if (resumeData && resumeData.filename !== file.name) {
         await deleteResume(false);
       }
 
@@ -119,8 +125,16 @@ export function useResume() {
           fileType: file.type
         };
 
-        // Save to Firestore for real-time sync
-        await setDoc(doc(db, "settings", "resume"), newResumeData);
+        // Only write to Firestore if data has actually changed
+        const hasChanged = !resumeData || 
+          resumeData.filename !== file.name || 
+          resumeData.fileSize !== file.size ||
+          resumeData.url !== downloadURL;
+
+        if (hasChanged) {
+          // Save to Firestore for real-time sync
+          await setDoc(doc(db, "settings", "resume"), newResumeData);
+        }
 
         toast({
           title: "Success!",
