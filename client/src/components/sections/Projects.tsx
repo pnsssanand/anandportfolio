@@ -1,213 +1,286 @@
-import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ExternalLink, Github, Edit, Trash2 } from "lucide-react";
-import { useProjects } from "@/hooks/useProjects";
-import { useAuth } from "@/hooks/useAuth";
+import { useEffect, useRef, useState } from "react";
+import { ExternalLink, Github, Eye } from "lucide-react";
+import { useProjectsOptimized } from "@/hooks/useProjectsOptimized";
+import ProjectSkeleton from "@/components/ui/ProjectSkeleton";
+import ProjectsEmptyState from "@/components/ui/ProjectsEmptyState";
+import ProjectsErrorState from "@/components/ui/ProjectsErrorState";
 
 export default function Projects() {
-  const { projects, loading } = useProjects();
-  const { isAdmin } = useAuth();
+  const { projects, loading, error, retry } = useProjectsOptimized({
+    enableLiveUpdates: false, // Use one-time fetch to reduce quota usage
+    useCache: true, // Enable caching for mobile
+  });
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
+  const [visibleProjects, setVisibleProjects] = useState<Set<string>>(new Set());
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Scroll to contact section
+  const scrollToContact = () => {
+    const element = document.getElementById('contact');
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
+  // Intersection Observer for reveal animations (mobile-safe)
+  useEffect(() => {
+    if (!projects.length || typeof window === 'undefined') return;
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-      },
-    },
-  };
+    // Fallback: if IntersectionObserver is not supported, reveal all immediately
+    if (!('IntersectionObserver' in window)) {
+      setVisibleProjects(new Set(projects.map(p => p.id)));
+      return;
+    }
 
-  if (loading) {
-    return (
-      <section id="projects" className="py-20 bg-luxury-darker">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-playfair gradient-text">
-              Featured Projects
-            </h2>
-            <p className="text-xl text-gray-300">Innovative solutions and cutting-edge developments</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="glass-effect border-gold/20 bg-transparent">
-                <CardHeader>
-                  <Skeleton className="h-48 w-full rounded-lg" />
-                </CardHeader>
-                <CardContent>
-                  <Skeleton className="h-6 w-3/4 mb-2" />
-                  <Skeleton className="h-4 w-full mb-4" />
-                  <div className="flex gap-2 mb-4">
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-6 w-20" />
-                    <Skeleton className="h-6 w-14" />
-                  </div>
-                  <Skeleton className="h-10 w-full" />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const projectId = entry.target.getAttribute('data-project-id');
+            if (projectId) {
+              setVisibleProjects(prev => new Set([...Array.from(prev), projectId]));
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.1,
+        rootMargin: '0px 0px -10% 0px' // Mobile-safe margin
+      }
     );
-  }
 
-  return (
-    <section id="projects" className="py-20 bg-luxury-darker">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={containerVariants}
-          className="text-center mb-16"
-        >
-          <motion.h2 
-            variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold mb-6 font-playfair gradient-text"
-          >
-            Featured Projects
-          </motion.h2>
-          <motion.p 
-            variants={itemVariants}
-            className="text-xl text-gray-300"
-          >
-            Innovative solutions and cutting-edge developments
-          </motion.p>
-        </motion.div>
+    observerRef.current = observer;
 
-        {projects.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center py-16"
-          >
-            <div className="glass-effect p-8 rounded-xl max-w-md mx-auto">
-              <h3 className="text-xl font-semibold text-gold mb-4">No Projects Yet</h3>
-              <p className="text-gray-300 mb-6">
-                Projects will be displayed here once they are added through the admin panel.
-              </p>
-              {isAdmin && (
-                <Button 
-                  onClick={() => window.location.href = '/admin'}
-                  className="bg-gradient-to-r from-gold to-gold-light text-black"
-                >
-                  Add Projects
-                </Button>
-              )}
-            </div>
-          </motion.div>
-        ) : (
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={containerVariants}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {projects.map((project) => (
-              <motion.div
-                key={project.id}
-                variants={itemVariants}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="project-card"
+    // Observe all project cards
+    const projectCards = document.querySelectorAll('[data-project-id]');
+    projectCards.forEach(card => observer.observe(card));
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [projects]);
+
+  // Render project card
+  const renderProjectCard = (project: any, index: number) => {
+    const isVisible = visibleProjects.has(project.id);
+    const staggerDelay = Math.min(index * 100, 500); // Max 500ms stagger
+
+    return (
+      <div
+        key={project.id}
+        data-project-id={project.id}
+        className={`project-card ${isVisible ? 'visible' : ''}`}
+        style={{
+          animationDelay: `${staggerDelay}ms`,
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'opacity 0.6s ease, transform 0.6s ease'
+        }}
+        role="article"
+        aria-label={`Project: ${project.title}`}
+      >
+        {/* Project Thumbnail */}
+        {project.media && (
+          <div className="thumbnail">
+            <img
+              src={project.media}
+              alt={`${project.title} project thumbnail`}
+              loading="lazy"
+              decoding="async"
+              width="400"
+              height="225"
+              onError={(e) => {
+                // Fallback for broken images
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+            {project.featured && (
+              <div 
+                className="featured-badge"
+                style={{
+                  position: 'absolute',
+                  top: '8px',
+                  left: '8px',
+                  background: '#E8C05A',
+                  color: '#121418',
+                  padding: '4px 8px',
+                  borderRadius: '6px',
+                  fontSize: '12px',
+                  fontWeight: '600'
+                }}
               >
-                <Card className="glass-effect border-gold/20 bg-transparent overflow-hidden h-full">
-                  {project.media && (
-                    <div className="relative h-48 overflow-hidden">
-                      <img 
-                        src={project.media} 
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                      />
-                      {project.featured && (
-                        <Badge className="absolute top-2 left-2 bg-gold text-black">
-                          Featured
-                        </Badge>
-                      )}
-                    </div>
-                  )}
-                  <CardHeader>
-                    <CardTitle className="text-xl font-semibold text-gold">
-                      {project.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex-1 flex flex-col">
-                    <p className="text-gray-300 mb-4 flex-1">{project.description}</p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.techStack.map((tech, index) => (
-                        <Badge 
-                          key={tech}
-                          variant="secondary"
-                          className={`${
-                            index % 2 === 0 
-                              ? 'bg-royal text-white' 
-                              : 'bg-gold text-black'
-                          }`}
-                        >
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-3 mt-auto">
-                      {project.link && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          asChild
-                          className="text-gold border-gold hover:bg-gold hover:text-black w-full justify-center"
-                        >
-                          <a href={project.link} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="w-4 h-4 mr-2" />
-                            Visit
-                          </a>
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+                Featured
+              </div>
+            )}
+          </div>
         )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
+        {/* Project Content */}
+        <div className="project-content" style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+          <h3 className="title">{project.title}</h3>
+          
+          <p className="meta">{project.description}</p>
+
+          {/* Tech Stack */}
+          {project.techStack && project.techStack.length > 0 && (
+            <div className="tech-stack">
+              {project.techStack.slice(0, 4).map((tech: string, techIndex: number) => (
+                <span key={techIndex} className="tech-item">
+                  {tech}
+                </span>
+              ))}
+              {project.techStack.length > 4 && (
+                <span className="tech-item" style={{ opacity: 0.7 }}>
+                  +{project.techStack.length - 4}
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Actions */}
+          <div className="actions">
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="action-button"
+                aria-label={`Visit ${project.title} project`}
+              >
+                <ExternalLink className="button-icon" style={{ width: '16px', height: '16px' }} />
+                View Project
+              </a>
+            )}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="action-button"
+                aria-label={`View ${project.title} source code on GitHub`}
+              >
+                <Github className="button-icon" style={{ width: '16px', height: '16px' }} />
+                Source
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <section 
+      ref={sectionRef}
+      id="projects" 
+      className="projects-section"
+      style={{
+        padding: '80px 0',
+        background: 'var(--luxury-darker)',
+        position: 'relative',
+        zIndex: 1
+      }}
+    >
+      <div className="projects">
+        {/* Section Header */}
+        <div 
+          className="section-header"
+          style={{
+            textAlign: 'center',
+            marginBottom: '48px'
+          }}
         >
-          <Button 
-            onClick={() => scrollToSection('contact')}
-            className="bg-gradient-to-r from-gold to-gold-light text-black px-8 py-4 text-lg font-semibold hover:scale-105 transition-transform"
+          <h2 
+            className="section-title"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              fontWeight: '700',
+              marginBottom: '16px',
+              background: 'linear-gradient(135deg, #E8C05A, #f4d03f)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              fontFamily: 'var(--font-serif)'
+            }}
           >
-            Let's Work Together
-          </Button>
-        </motion.div>
+            Featured Projects
+          </h2>
+          <p 
+            className="section-subtitle"
+            style={{
+              fontSize: 'clamp(1rem, 3vw, 1.25rem)',
+              color: '#c7c9d1',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: '1.5'
+            }}
+          >
+            Innovative solutions and cutting-edge developments that showcase my expertise
+          </p>
+        </div>
+
+        {/* Content Area */}
+        {loading ? (
+          <ProjectSkeleton count={12} />
+        ) : error ? (
+          <ProjectsErrorState error={error} onRetry={retry} />
+        ) : projects.length === 0 ? (
+          <ProjectsEmptyState onContactClick={scrollToContact} />
+        ) : (
+          <>
+            <div className="projects-grid">
+              {projects.map((project, index) => renderProjectCard(project, index))}
+            </div>
+
+            {/* CTA Section */}
+            <div 
+              className="projects-cta"
+              style={{
+                textAlign: 'center',
+                marginTop: '48px',
+                padding: '32px 16px'
+              }}
+            >
+              <h3 
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: '600',
+                  color: '#ffffff',
+                  marginBottom: '16px'
+                }}
+              >
+                Like what you see?
+              </h3>
+              <p 
+                style={{
+                  fontSize: '1rem',
+                  color: '#c7c9d1',
+                  marginBottom: '24px',
+                  maxWidth: '400px',
+                  margin: '0 auto 24px'
+                }}
+              >
+                Let's collaborate and bring your ideas to life with innovative solutions.
+              </p>
+              <button
+                onClick={scrollToContact}
+                className="cta-button primary"
+                style={{
+                  fontSize: '16px',
+                  padding: '16px 32px'
+                }}
+                aria-label="Contact me to discuss a project"
+              >
+                Let's Work Together
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
